@@ -20,6 +20,11 @@ npm start
 
 Requires `node` verion >=5.0.0 `npm` version >= 3.0.0. Older versions of them work fine mostly, but it's recommanded to upgrade.
 
+Install node on mac:
+```
+brew install node
+```
+
 ```
 node -v
 npm -version

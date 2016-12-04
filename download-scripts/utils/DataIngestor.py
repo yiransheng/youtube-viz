@@ -54,9 +54,9 @@ def parse_duration(duration):
     except ValueError:
         # cases where only the minute level is presented
         minutes = [int(i) for i in re.split('[A-Z]', duration) if i != ""]
+        minutes = minutes[0]        # unpack
         seconds = 0
     return (int(minutes) * 60) + int(seconds)
-
 
 class DataIngestor():
     """Modify Alejandro's code for the use case that we just

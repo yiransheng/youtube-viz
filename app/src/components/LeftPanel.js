@@ -1,20 +1,14 @@
 import React, {Component} from 'react';
 import { Button, Input, Table, Icon } from 'antd';
+import {get, snakeCase, capitalize} from 'lodash';
+
+import {connect} from 'react-redux';
 
 const css = [
   "dark",
   "with-padding",
   "full-height"
 ].join(" ");
-
-const metrics = [
-  "likeCount",
-  "Comment Count",
-  "Fav Count",
-  "Dislike Count",
-  "View Count",
-  "Duration"
-]
 
 const columns = [
   {
@@ -28,17 +22,29 @@ const columns = [
     dataIndex : "type"
   }
 ]
-const data = metrics.map((d,i) => {
-  return {
-    key : i,
-    metric: d,
-    type : "Integer",
-    description: d
-  }
-});
+function formatKey(key) {
+  const parts = snakeCase(key).split("_");
+  return parts.map(capitalize).join(" ");
+}
 
-export default class LeftPanel extends Component {
+function select(state) {
+  return {
+    metrics : state.metrics,
+    metaData : state.metaData
+  };
+}
+
+class LeftPanel extends Component {
   render() {
+    const {metrics, metaData} = this.props;
+    const data = metrics.map((d,i) => {
+      return {
+        key : i,
+        metric: d,
+        type : "Integer",
+        description: get(metaData[d], "description") || `${formatKey(d)} of a video: Integer.`
+      }
+    });
     return (
       <div className={css}>
         <div className="with-padding-y">
@@ -69,3 +75,4 @@ export default class LeftPanel extends Component {
     );
   }
 }
+export default connect(select)(LeftPanel);

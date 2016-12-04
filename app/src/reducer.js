@@ -13,6 +13,11 @@ const initState = {
     "viewCount",
     "duration_sec"
   ],
+  metaData : {
+    "duration_sec" : {
+      description: "Duration of a video in seconds."
+    }
+  },
   histPlots : {}
 }
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Input, Table, Icon, Form } from 'antd';
 import {get, snakeCase, capitalize, sampleSize} from 'lodash';
+import Formula from './Formula';
 
 import {connect} from 'react-redux';
 
@@ -64,11 +65,7 @@ class LeftPanel extends Component {
                  />
         </div>
         <div className="with-padding-y">
-          <Input placeholder="name formula" />
-          <Input placeholder="type formula" />
-        </div>
-        <div className="with-padding-y">
-          <Button type="primary">Add Formula</Button>
+          <Formula />
         </div>
         <div className="with-padding-y">
           <h2>Dimensions</h2>

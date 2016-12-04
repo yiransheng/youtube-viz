@@ -386,6 +386,9 @@
       error("Invalid expression part.");
     }
   }
+  function funcCall() {
+
+  }
   
   var __parse = function(source) {
     text = source;

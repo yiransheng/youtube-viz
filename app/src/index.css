@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,300');
+
+* {
+  box-sizing: border-box;
+}
+body {
+  /* overwrite library css */
+  font-family: Roboto !important;
+  background: #f6f6f6 !important;
+  min-height: 100vh !important;
+}
+
+/* main page layout */
+
+.main-header {
+  width: 100%;
+  height: 6em;
+  text-align: center;
+  background: #bb0000; /* youtube brand color */
+  color: #f6f6f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-header img{
+  height: 100%;
+  margin: 0 2em;
+}
+
+.two-column {
+  margin: 4em auto;
+  width: 100%;
+  max-width: 1280px;
+  background: #fff;
+  display: flex;
+}
+.fixed-panel {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 360px;
+  border-right: 1px solid #000;
+}
+.fluid-panel {
+  flex-grow: 2;
+}
+/* utils */
+.dark {
+  background: #222;
+  color: #fefefe;
+}
+.light {
+  background: #f0f0f0;
+  color: #222;
+}
+.with-padding {
+  padding: 1em;
+}
+.with-padding-y {
+  padding: 1em 0;
+}
+.centering {
+  text-align: center;
+}
+.full-height {
+  height: 100vh;
+  max-height: 100%;
+}
+.divider-bottom {
+  width: 100%;
+}
+.divider-bottom:after {
+  content: "";
+  display: block;
+  width: calc(100% - 2em);
+  border-bottom: 1px solid #668;
+  transform: translate(1em, 0);
+  height: 0.5em;
+  margin-bottom: 0.5em;
+}
+.divider-bottom.dark:after {
+  border-bottom: 1px solid #ccc;
+}
+
+
+/* histograms */
+
+.hists {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.add-hist {
+  box-sizing: border-box;
+  width: 200px;
+  height: 200px;
+  margin: 25px;
+  border: 2px dashed #222;
+  padding: 90px 15px 0; 
+  cursor: pointer;
+  text-align: center;
+}
+.close-button {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.grids line,
+.grids path {
+  opacity: 0.1;
+  stroke-dasharray: 1 2;
+}

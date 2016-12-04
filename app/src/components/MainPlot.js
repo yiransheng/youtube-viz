@@ -44,13 +44,13 @@ function select(state) {
     });
     return sum(conditions) === keys.length;
   });
-  const metric = 'duration_sec';
+  const metric = 'likeCount';
   const groupKey = 'publishedAt';
-  const aggregationType = 'MEDIAN';
+  const aggregationType = 'AVG';
 
   const data = toPairs(
     groupBy(rawData, 
-      d => moment(d.publishedAt).format("MMM Do YY"))
+      d => moment(d.publishedAt).format("YYYY-MM-DD"))
   ).map(([key, values]) => {
 
     const vals = values.map(d => {
@@ -58,7 +58,7 @@ function select(state) {
     });
 
     return {
-      x : key,
+      x : moment(key).toDate(),
       y : aggregations[aggregationType](vals)
     }
 

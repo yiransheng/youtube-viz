@@ -1,21 +1,24 @@
-import plottable from 'plottable/plottable';
+import Plottable from 'plottable/plottable';
 import React, {Component} from 'react';
 
-// const colorPalette = ["#7AC36A", "#5A9BD4", "#FAA75B", "#9E67AB", "#CE7058", "#D77FB4", "#F15A60", "#737373"];
-function createBarChart({data, dimensionKey, metrickKey}) {
+const colorPalette = ["#7AC36A", "#5A9BD4", "#FAA75B", "#9E67AB", "#CE7058", "#D77FB4", "#F15A60", "#737373"];
+function createBarChart({data, dimensionKey, metricKey}) {
   const plot = new Plottable.Plots.Bar("vertical");
   const x = new Plottable.Scales.Category();
   const y = new Plottable.Scales.Linear();
   const xAxis = new Plottable.Axes.Category(x, "bottom").tickLabelAngle(90);
   const yAxis = new Plottable.Axes.Numeric(y, "left");
 
-  plot.addDataset(new Plottable.Dataset(data))
-    .x(d => d[dimensionKey])
-    .y(d => d[metricKey]);
+  console.log(data, dimensionKey, metricKey);
+  plot.addDataset(new Plottable.Dataset(data));
+  plot
+    .x(d => d[dimensionKey], x)
+    .y(d => d[metricKey], y)
+    .attr("fill", colorPalette[0]);
 
   const table = new Plottable.Components.Table([
-    [y, plot],
-    [null, x]
+    [yAxis, plot],
+    [null, xAxis]
   ]);
 
   return table;
@@ -30,6 +33,7 @@ export default class BarChart extends Component {
   componentDidUpdate() {
     this._chart && this._chart.destroy();
     this._chart = createBarChart(this.props);
+    this._chart.renderTo(this.refs.svg);
   }
   componentWillUnmount() {
     this._chart && this._chart.destroy();
@@ -37,8 +41,14 @@ export default class BarChart extends Component {
 
   render() {
     return (
-      <svg ref="svg" 
-        />
+      <div className="asp-ratio-wrapper">
+        <div className="asp-ratio-inner">
+          <svg ref="svg" 
+            width={880}
+            height={500}
+            />
+        </div>
+      </div>
     );
   }
 }

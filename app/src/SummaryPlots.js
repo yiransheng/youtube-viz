@@ -65,7 +65,7 @@ class Plot extends React.Component {
           if (k === key) {
             return true;
           } else {
-            const e = find(histPlots, {key:k}).ext;
+            const e = histPlots[k].ext;
             return e ? (d[k] >= e[0] && d[k] <= e[1]) : true;
           }
         });
@@ -109,9 +109,9 @@ class Plot extends React.Component {
             onCancel={() => this.setState({showModal:false})}
             onOk={() => this.setState({showModal:false})}>
             <Dropdown overlay={<Menu>{items}</Menu>}>
-              <a className="ant-dropdown-link" href="#">
+              <span className="ant-dropdown-link">
                 Choose Field <Icon type="down" />
-              </a>
+              </span>
             </Dropdown>
           </Modal>
         </div>

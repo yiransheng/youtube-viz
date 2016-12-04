@@ -102,6 +102,22 @@ class Formula extends Component {
   _onNameChange(name) {
     this.setState({ name });
   }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!this.state.parseTree || !this.state.name) {
+      return;
+    }
+    this.props.onAdd({
+      name : this.state.name,
+      formula : this.state.parseTree
+    });
+    this.setState({
+      parseTree : null,
+      raw : '',
+      name : ''
+    });
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const formulaError = this.state.raw && (this.state.parseTree === null);

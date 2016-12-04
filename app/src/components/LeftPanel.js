@@ -53,6 +53,12 @@ class LeftPanel extends Component {
         samples : '[' + sampleSize(dataset, 3).map(datum=>datum[d]).join(", ") + ']'
       }
     });
+    const addFormula = (added) => {
+      this.props.dispatch({
+        type : 'ADD_FORMULA',
+        payload : added
+      });
+    };
     return (
       <div className={css}>
         <div className="with-padding-y">
@@ -65,7 +71,7 @@ class LeftPanel extends Component {
                  />
         </div>
         <div className="with-padding-y">
-          <Formula />
+          <Formula onAdd={addFormula} />
         </div>
         <div className="with-padding-y">
           <h2>Dimensions</h2>

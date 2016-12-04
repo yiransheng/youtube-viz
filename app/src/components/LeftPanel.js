@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Input, Table, Icon, Form } from 'antd';
-import {get, snakeCase, capitalize} from 'lodash';
+import {get, snakeCase, capitalize, sampleSize} from 'lodash';
 
 import {connect} from 'react-redux';
 
@@ -20,6 +20,11 @@ const columns = [
     title : "Type",
     key : "type",
     dataIndex : "type"
+  },
+  {
+    title : "Sample",
+    key : "samples",
+    dataIndex : "samples"
   }
 ]
 function formatKey(key) {
@@ -29,6 +34,7 @@ function formatKey(key) {
 
 function select(state) {
   return {
+    data : state.data,
     metrics : state.metrics,
     metaData : state.metaData
   };
@@ -36,13 +42,14 @@ function select(state) {
 
 class LeftPanel extends Component {
   render() {
-    const {metrics, metaData} = this.props;
+    const {metrics, metaData, data:dataset} = this.props;
     const data = metrics.map((d,i) => {
       return {
         key : i,
         metric: d,
         type: get(metaData[d], "type") || "Integer",
-        description: get(metaData[d], "description") || `${formatKey(d)} of a video: Integer.`
+        description: get(metaData[d], "description") || `${formatKey(d)} of a video: Integer.`,
+        samples : '[' + sampleSize(dataset, 3).map(datum=>datum[d]).join(", ") + ']'
       }
     });
     return (

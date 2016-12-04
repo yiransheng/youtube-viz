@@ -1,5 +1,6 @@
 import moment from 'moment';
 import data from './yt_output_filter.json';
+import {snakeCase, includes} from 'lodash';
 
 data.forEach(d => {
   d.snippet_publishedAt = moment(d.snippet_publishedAt).toDate();
@@ -73,6 +74,52 @@ function removeHistogramReducer(state, action) {
   return {...state, histPlots};
 }
 
+function addFormula(state, action) {
+  const {name, formula, raw} = action.payload;
+  const key = snakeCase(name);
+  const {metrics} = state;
+  if (includes(metrics, key)) {
+    return state;
+  }
+  state.data.forEach(d => {
+    d[key] = evaluate(d, formula);
+  });
+  const metaData = {
+    ...state.metaData,
+    [key] : {
+      type : 'Formula',
+      description: `User added Formula: ${raw}`
+    }
+  }
+  return {...state, metaData, metrics: [...metrics, key]};
+}
+const ops = {
+  '+' : (a, b)=>a+b,
+  '-' : (a, b)=>a-b,
+  '*' : (a, b)=>a*b,
+  '/' : (a, b)=>a/b
+}
+function evaluate(datum, formula) {
+  if (formula.type === 'Literal') {
+    return formula.value;
+  }
+  if (formula.type === 'Identifier') {
+    return datum[formula.name];
+  }
+  if (formula.type === 'BinaryExpression') {
+    return ops[formula.operator](
+      evaluate(datum, formula.left),
+      evaluate(datum, formula.right)
+    );
+  }
+  if (formula.type === 'CallExpression') {
+    const func = Math[formula.callee.name];
+    const args = formula.arguments.map(arg => evaluate(datum, arg));
+    return func.apply(Math, args);
+  }
+  throw "Evaluation Error";
+}
+
 export default function(state=initState, action) {
   switch (action.type) {
     case 'LOAD_DATA':
@@ -86,6 +133,8 @@ export default function(state=initState, action) {
       return addHistogramReducer(state, action);
     case 'REMOVE_HISTOGRAM':
       return removeHistogramReducer(state, action);
+    case 'ADD_FORMULA':
+      return addFormula(state, action);
     default:
       return state;
   }

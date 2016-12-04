@@ -27,7 +27,7 @@ const idents = new Set([
 const funcs = new Set([
   'log',
   'exp',
-  'floot',
+  'floor',
   'ceil',
   'pow'
 ]);
@@ -108,9 +108,13 @@ class Formula extends Component {
     if (!this.state.parseTree || !this.state.name) {
       return;
     }
+    if (idents.has(this.state.name)) {
+      return;
+    }
     this.props.onAdd({
       name : this.state.name,
-      formula : this.state.parseTree
+      formula : this.state.parseTree,
+      raw : this.state.raw
     });
     this.setState({
       parseTree : null,
@@ -136,7 +140,7 @@ class Formula extends Component {
             rules: [{ required: true, message: 'Type Formula' }],
           })(
             <Input onChange={e => this._onFormulaChange(e.target.value)} 
-                   addonBefore={<Icon type="edit" />} placeholder="formula" />
+                   addonBefore={<Icon type="edit" />} placeholder="log(statistics_likeCount+1)" />
           )}
         </FormItem>
         <span className="form-error">{formulaError ? 'Your formula is invalid' : ''}</span> 

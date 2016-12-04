@@ -71,6 +71,9 @@ class LeftPanel extends Component {
                  />
         </div>
         <div className="with-padding-y">
+          <h3>Add Additional Metrics</h3>
+          <p>You can type in a math expression to compute new metrics from existing ones.</p>
+          <br />
           <Formula onAdd={addFormula} />
         </div>
         <div className="with-padding-y">

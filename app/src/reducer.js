@@ -1,21 +1,40 @@
-import rawData from './yt_20.json';
-import {parse, removeDotsInKey} from './model';
+import moment from 'moment';
+import data from './yt_output_filter.json';
 
-const data = removeDotsInKey(rawData);
+data.forEach(d => {
+  d.snippet_publishedAt = moment(d.snippet_publishedAt).toDate();
+});
 
 const initState = {
   data,
   metrics : [
-    "commentCount",
-    "dislikeCount",
-    "favoriteCount",
-    "likeCount",
-    "viewCount",
-    "duration_sec"
+    // "category",
+    // "contentDetails_duration",
+    // "contentDetails_projection",
+    "duration_sec",
+    // "id",
+    // "snippet_categoryId",
+    // "snippet_channelId",
+    // "snippet_channelTitle",
+    // "snippet_localized_title",
+    // "snippet_publishedAt",
+    // "snippet_tags",
+    // "snippet_thumbnails_default_url",
+    // "snippet_title",
+    "statistics_commentCount",
+    "statistics_dislikeCount",
+    "statistics_favoriteCount",
+    "statistics_likeCount",
+    "statistics_viewCount"
+  ],
+  dimensions : [
+    "category",
+    "id",
+    "snippet_channelTitle"
   ],
   metaData : {
     "duration_sec" : {
-      type : "Integer",
+      type : "INT",
       description: "Duration of a video in seconds."
     }
   },
@@ -56,6 +75,11 @@ function removeHistogramReducer(state, action) {
 
 export default function(state=initState, action) {
   switch (action.type) {
+    case 'LOAD_DATA':
+      return {
+        ...state,
+        data : action.payload
+      };
     case 'BRUSH':
       return brushReducer(state, action);
     case 'ADD_HISTOGRAM':

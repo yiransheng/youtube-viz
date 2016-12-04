@@ -21,11 +21,11 @@ const columns = [
     key : "type",
     dataIndex : "type"
   },
-  {
-    title : "Sample",
-    key : "samples",
-    dataIndex : "samples"
-  }
+  // {
+  //   title : "Sample",
+  //   key : "samples",
+  //   dataIndex : "samples"
+  // }
 ]
 function formatKey(key) {
   const parts = snakeCase(key).split("_");
@@ -47,7 +47,7 @@ class LeftPanel extends Component {
       return {
         key : i,
         metric: d,
-        type: get(metaData[d], "type") || "Integer",
+        type: get(metaData[d], "type") || "INT",
         description: get(metaData[d], "description") || `${formatKey(d)} of a video: Integer.`,
         samples : '[' + sampleSize(dataset, 3).map(datum=>datum[d]).join(", ") + ']'
       }
@@ -58,7 +58,7 @@ class LeftPanel extends Component {
           <h2>Metrics</h2>
         </div>
         <div className="light">
-          <Table columns={columns} 
+          <Table size="small" columns={columns} 
                  dataSource={data} 
                  expandedRowRender={record => <p>{record.description}</p>}
                  />
@@ -74,10 +74,6 @@ class LeftPanel extends Component {
           <h2>Dimensions</h2>
         </div>
         <div className="light">
-          <Table columns={columns} 
-                 dataSource={data.slice(0,3)} 
-                 expandedRowRender={record => <p>{record.description}</p>}
-                 />
         </div>
       </div>
     );

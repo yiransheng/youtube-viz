@@ -15,8 +15,10 @@ import BarChart from '../visualizations/BarChart';
 
 class MainPlot extends Component {
   render() {
-    const {data} = this.props; 
-    return <BarChart data={data} dimensionKey="x" metricKey="y" />;
+    const {dataMonthly, dataDaily, metricLabel} = this.props; 
+    return <BarChart data={dataMonthly} 
+            metricLabel={metricLabel}
+            dataRefined={dataDaily} dimensionKey="x" metricKey="y" />;
   }
 }
 
@@ -44,13 +46,28 @@ function select(state) {
     });
     return sum(conditions) === keys.length;
   });
-  const metric = 'likeCount';
-  const groupKey = 'publishedAt';
-  const aggregationType = 'AVG';
+  const metric = 'statistics_viewCount';
+  const groupKey = 'snippet_publishedAt';
+  const aggregationType = 'MEDIAN';
 
-  const data = toPairs(
+  const dataMonthly = toPairs(
     groupBy(rawData, 
-      d => moment(d.publishedAt).format("YYYY-MM-DD"))
+      d => moment(d.snippet_publishedAt).format("YYYY-MM"))
+  ).map(([key, values]) => {
+
+    const vals = values.map(d => {
+      return Number(d[metric]);
+    });
+
+    return {
+      x : moment(key+'-01').toDate(),
+      y : aggregations[aggregationType](vals)
+    }
+
+  });
+  const dataDaily = toPairs(
+    groupBy(rawData, 
+      d => moment(d.snippet_publishedAt).format("YYYY-MM-DD"))
   ).map(([key, values]) => {
 
     const vals = values.map(d => {
@@ -64,7 +81,7 @@ function select(state) {
 
   });
 
-  return {data};
+  return {dataMonthly, dataDaily, metricLabel:metric};
 }
 
 export default connect(select)(MainPlot);

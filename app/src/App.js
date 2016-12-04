@@ -5,6 +5,7 @@ import LeftPanel from './components/LeftPanel';
 import TwoColumn from './components/TwoColumn'; 
 import SummaryPlots from './SummaryPlots';
 import MainPlot from './components/MainPlot';
+import HODPlot from './components/HODPlot';
 
 export default class App extends React.Component {
   render() {
@@ -16,6 +17,7 @@ export default class App extends React.Component {
           <div className="with-padding">
             <SummaryPlots />
             <MainPlot />
+            <HODPlot />
           </div>
         </TwoColumn>
       </div>

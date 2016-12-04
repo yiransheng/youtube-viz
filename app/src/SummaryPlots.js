@@ -7,7 +7,7 @@ import {sum, select, range, randomNormal} from 'd3';
 import Histogram from './visualizations/Histogram';
 import {parse, removeDotsInKey} from './model';
 
-import rawData from './yt_data.json';
+import rawData from './yt_20.json';
 
 const data = removeDotsInKey(rawData);
 

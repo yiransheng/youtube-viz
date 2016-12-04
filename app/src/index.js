@@ -4,6 +4,7 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 
 import 'antd/dist/antd.css';
+import 'plottable/plottable.css';
 import './index.css';
 
 import reducer from './reducer';

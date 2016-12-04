@@ -144,7 +144,7 @@ class Formula extends Component {
           )}
         </FormItem>
         <span className="form-error">{formulaError ? 'Your formula is invalid' : ''}</span> 
-        <FormItem>
+        <FormItem style={{ textAlign: 'right' }}>
           { (formulaError || !this.state.name || !this.state.parseTree) ?
           (
             <Button type="primary" htmlType="submit" className="login-form-button" disabled>

@@ -1,92 +1,65 @@
 import React from 'react';
+import {connect} from 'react-redux'; 
 import { Modal, Button, Menu, Dropdown, Icon } from 'antd';
 
 
-import {find, without} from 'lodash';
+import {find, without, snakeCase, capitalize} from 'lodash';
 import {sum, select, range, randomNormal} from 'd3';
 import Histogram from './visualizations/Histogram';
-import {parse, removeDotsInKey} from './model';
 
-import rawData from './yt_20.json';
 
-const data = removeDotsInKey(rawData);
-
-console.log(data);
-
-const measures = [
-  "likeCount",
-  "commentCount",
-  "dislikeCount",
-  "favoriteCount",
-  "viewCount"
-]
-
-console.log(data);
-
-const initState = {
-  data,
-  histPlots : [
-  ]
+function mapStateToProps(state) {
+  return {
+    data : state.data,
+    histPlots : state.histPlots,
+    metrics : state.metrics
+  };
 }
 
-const reducer = (state=initState, action) => {
-  if (action.type === 'BRUSH') {
-    let {key, ext} = action.payload;
-    if (ext && ext[0] <= -Infinity) {
-      ext = null;
-    }
-    const {histPlots} = state;
-    const newPlots = histPlots.map(p => {
-      return p.key === key ? {...p, ext} : p;
-    });
-    return {...state, histPlots:newPlots};
-  } else if (action.type === 'ADD_HISTOGRAM') {
-    const key = action.payload;
-    const histPlots = [...state.histPlots, {
-      key,
-      ext : null
-    }];
-    return {...state, histPlots, showModal:false};
-  } else if (action.type === 'REMOVE_HISTOGRAM') {
-    const key = action.payload;
-    const histPlots = state.histPlots.filter(p => p.key !== key);
-    return {...state, histPlots, showModal:false};
-  }
-  return state;
+function formatKey(key) {
+  const parts = snakeCase(key).split("_");
+  return parts.map(capitalize).join(" ");
 }
-
 
 class Plot extends React.Component {
-  constructor() {
-    super();
-    this.state = initState;
+  static defaultProps = {
+
   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal : false
+    };
+  }
+
   onBrush = (key, ext) => {
-    this.setState(reducer(this.state, {
+    this.props.dispatch({
       type : 'BRUSH',
       payload : {
         key,
         ext
       }
-    }));
+    });
   }
   addField(key) {
-    this.setState(reducer(this.state, {
+    this.props.dispatch({
       type : 'ADD_HISTOGRAM',
       payload : key
-    }));
+    });
+    this.setState({ showModal : false });
   }
   remove(key) {
-    this.setState(reducer(this.state, {
+    this.props.dispatch({
       type : 'REMOVE_HISTOGRAM',
       payload : key
-    }));
+    });
+    this.setState({ showModal : false });
   }
   render() {
-    const {data, histPlots} = this.state;
-    const keys = histPlots.map(p => p.key);
-    const plots = histPlots.map(({ key, ext }) => {
-
+    const {data, histPlots, metrics} = this.props;
+    const keys = Object.keys(histPlots);
+    const plots = keys.map(key => {
+      const {ext} = histPlots[key];
       const plotData = data.filter(d => {
         const conditions = keys.map(k => {
           if (k === key) {
@@ -106,14 +79,14 @@ class Plot extends React.Component {
           </div>
           <Histogram data={plotData}
                 value={d => d[key]}
-                title={`Plot ${key}`}
+                title={formatKey(key)}
                 onBrush={ext => this.onBrush(key, ext)}
                 brushExtent={ext} />
         </div>
       );
 
     });
-    const remainingKeys = without(measures, ...keys);
+    const remainingKeys = without(metrics, ...keys);
     const items = remainingKeys.map((k) => {
       return (
         <Menu.Item key={k}>
@@ -147,4 +120,4 @@ class Plot extends React.Component {
   }
 }
 
-export default Plot;
+export default connect(mapStateToProps)(Plot);

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Input, Table, Icon } from 'antd';
+import { Button, Input, Table, Icon, Form } from 'antd';
 import {get, snakeCase, capitalize} from 'lodash';
 
 import {connect} from 'react-redux';
@@ -41,7 +41,7 @@ class LeftPanel extends Component {
       return {
         key : i,
         metric: d,
-        type : "Integer",
+        type: get(metaData[d], "type") || "Integer",
         description: get(metaData[d], "description") || `${formatKey(d)} of a video: Integer.`
       }
     });
@@ -57,6 +57,7 @@ class LeftPanel extends Component {
                  />
         </div>
         <div className="with-padding-y">
+          <Input placeholder="name formula" />
           <Input placeholder="type formula" />
         </div>
         <div className="with-padding-y">

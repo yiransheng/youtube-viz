@@ -15,6 +15,7 @@ const initState = {
   ],
   metaData : {
     "duration_sec" : {
+      type : "Integer",
       description: "Duration of a video in seconds."
     }
   },

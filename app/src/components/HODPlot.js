@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 
 import Measure from 'react-measure';
 import TimingChart from '../visualizations/TimingChart';
+import {getFilteredData, getMetricLabel, getDimensionLabel} from './selectors';
 
 class HODPlot extends Component {
   constructor(props) {
@@ -26,8 +27,8 @@ class HODPlot extends Component {
     }
   }
   render() {
-    const {data} = this.props;
-    const chart = <TimingChart data={data} dimensions={this.state.dimensions} />
+    const {data, displayNames} = this.props;
+    const chart = <TimingChart data={data} displayNames={displayNames} dimensions={this.state.dimensions} />
     return (
         <Measure 
           onMeasure={(dimensions) => {
@@ -64,24 +65,20 @@ function normalizeDate(date) {
 }
 
 function select(state) {
-  const keys = Object.keys(state.histPlots);
-  const rawData = state.data.filter(d => {
-    const conditions = keys.map(k => {
-      const e = state.histPlots[k].ext;
-      return e ? (d[k] >= e[0] && d[k] <= e[1]) : true;
-    });
-    return sum(conditions) === keys.length;
-  });
+  const rawData = getFilteredData(state);
   const metric = state.primary;
   const data = sampleSize(rawData, 500)
     .map(d => {
       return {
         x : normalizeDate(d.snippet_publishedAt),
         y : d[metric],
-        duration : d.duration_sec * 1000
+        duration : d.duration_sec * 1000,
       }
     });
-  return {data};
+  return {data, 
+          displayNames : {
+            metric : getMetricLabel(state)
+          }};
 }
 
 export default connect(select)(HODPlot);

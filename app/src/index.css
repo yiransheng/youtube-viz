@@ -94,7 +94,7 @@ h2:before {
   content: "";
   display: block;
   width: 100%;
-  border-bottom: 1px solid #668;
+  border-bottom: 1px solid #baa;
   height: 0.5em;
   margin-bottom: 0.5em;
 }
@@ -161,4 +161,9 @@ h2:before {
 .grids path {
   opacity: 0.1;
   stroke-dasharray: 1 2;
+}
+
+/* misc */
+.no-date .time-axis .content .time-axis-tier:last-child text {
+  fill: transparent;
 }

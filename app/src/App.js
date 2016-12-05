@@ -9,6 +9,7 @@ import SummaryPlots from './components/SummaryPlots';
 import MainPlot from './components/MainPlot';
 import HODPlot from './components/HODPlot';
 import ChannelPlot from './components/PerChannel';
+import ScatterPlot from './components/ScatterPlot'
 
 export default class App extends React.Component {
   render() {
@@ -24,6 +25,7 @@ export default class App extends React.Component {
             <MainPlot />
             <HODPlot />
             <ChannelPlot />
+            <ScatterPlot />
           </div>
         </TwoColumn>
       </div>

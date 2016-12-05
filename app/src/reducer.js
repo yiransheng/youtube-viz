@@ -2,6 +2,7 @@ import moment from 'moment';
 import data from './yt_output_filter.json';
 import {range, snakeCase, includes, uniq} from 'lodash';
 
+// setup initial state
 const now = Date.now();
 
 data.forEach(d => {
@@ -69,6 +70,8 @@ initState.dimensions.forEach(dim => {
     levels : uniq(data.map(x=>x[dim])).slice(0, 200)
   }
 });
+
+// reducers
 
 function brushReducer(state, action) {
   let {key, ext} = action.payload;
@@ -167,6 +170,11 @@ export default function(state=initState, action) {
       return {
         ...state,
         primary: action.payload
+      };
+    case 'SET_PRIMARY_DIMENSION':
+      return {
+        ...state,
+        primaryDimension: action.payload
       };
     case 'LOAD_DATA':
       return {

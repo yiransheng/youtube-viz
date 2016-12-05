@@ -11,16 +11,35 @@ import moment from 'moment';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {getFilteredData} from './selectors';
-
+import {getFilteredData, getMetricLabel, getDimensionLabel} from './selectors';
+import Measure from 'react-measure';
 import BarChart from '../visualizations/BarChart';
 
 class MainPlot extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dimensions: {
+        width: 10,
+        height: 10
+      }
+    }
+  }
   render() {
-    const {dataMonthly, dataDaily, metricLabel} = this.props; 
-    return <BarChart data={dataMonthly} 
+    const {dataMonthly, dataDaily, metricLabel, displayNames} = this.props; 
+    const chart = <BarChart data={dataMonthly} 
             metricLabel={metricLabel}
+            dimensions={this.state.dimensions}
+            displayNames={displayNames}
             dataRefined={dataDaily} dimensionKey="x" metricKey="y" />;
+    return (
+        <Measure 
+          onMeasure={(dimensions) => {
+            this.setState({dimensions})
+          }}>
+          {chart}
+        </Measure>
+    );
   }
 }
 
@@ -76,7 +95,9 @@ function select(state) {
 
   });
 
-  return {dataMonthly, dataDaily, metricLabel:metric};
+  return {dataMonthly, dataDaily, metricLabel:metric, displayNames:{
+    metric : getMetricLabel(state) 
+  }};
 }
 
 export default connect(select)(MainPlot);

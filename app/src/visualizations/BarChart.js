@@ -8,7 +8,7 @@ function durationDays(from, to) {
   return Math.abs(to - from) / 1000 / 3600 / 24;
 }
 
-function createBarChart({data, metricLabel, dataRefined, dimensionKey, metricKey}) {
+function createBarChart({data, metricLabel, dataRefined, dimensionKey, metricKey, displayNames}) {
   // const plot = new Plottable.Plots.Bar("vertical");
   const plot = new Plottable.Plots.Line();
   const isTime = data && data.length && (data[0].x instanceof Date);
@@ -49,7 +49,7 @@ function createBarChart({data, metricLabel, dataRefined, dimensionKey, metricKey
     if (oldDataset !== newDataset) {
       plot.datasets([newDataset]);
       const isMonthly = plot.datasets()[0] === data1;
-      const title = `Median ${isMonthly ? 'Monthly' : 'Daily'} ${metricLabel}`;
+      const title = `Median ${isMonthly ? 'Monthly' : 'Daily'} ${displayNames ? displayNames.metric : metricLabel}`;
       titleLabel.text(title);
     }
   }
@@ -62,7 +62,7 @@ function createBarChart({data, metricLabel, dataRefined, dimensionKey, metricKey
   const body = new Plottable.Components.Group([gridlines, plot]);
 
   const isMonthly = plot.datasets()[0] === data1;
-  const title = `Median ${isMonthly ? 'Monthly' : 'Daily'} ${metricLabel}`;
+  const title = `Median ${isMonthly ? 'Monthly' : 'Daily'} ${displayNames ? displayNames.metric : metricLabel}`;
   const titleLabel = new Plottable.Components.TitleLabel(title);
 
   const table = new Plottable.Components.Table([
@@ -90,13 +90,14 @@ export default class BarChart extends Component {
   }
 
   render() {
+    const {dimensions={width:880,height:360}} = this.props;
     return (
       <div className="asp-ratio-wrapper">
         <div className="asp-ratio-inner">
-          <svg ref="svg" 
-            width={880}
-            height={360}
-            />
+          <svg ref="svg"
+               width={dimensions.width}
+               height={dimensions.height}
+          />
         </div>
       </div>
     );

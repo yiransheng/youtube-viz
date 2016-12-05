@@ -22,7 +22,7 @@ function digitizeTime(date) {
   const start = moment(date).startOf("day").toDate().getTime();
   const milsecs = date.getTime() - start;
   // half an hour
-  const roundMilsecs = Math.floor(milsecs / 1800000) * 1800000;
+  const roundMilsecs = Math.round(milsecs / 3600000) * 3600000 + 1800000;
   return new Date(start + roundMilsecs);
 }
 function summarize(data, func=median) {
@@ -39,9 +39,9 @@ function createTimingChart({data, metricLabel, dataRefined, dimensionKey, metric
   const x = new Plottable.Scales.Time()
   const y = new Plottable.Scales.Linear();
 
-  const xMin = moment().startOf("day").toDate();
-  const xMax = moment().endOf("day").toDate();
-  x.domain([xMin, xMax]);
+  const xMin = moment().startOf("day").toDate().getTime() - 1800000;
+  const xMax = moment().endOf("day").toDate().getTime() + 3600000;
+  x.domain([new Date(xMin), new Date(xMax)]);
 
 
   const xAxis = new Plottable.Axes.Time(x, "bottom");
@@ -65,7 +65,7 @@ function createTimingChart({data, metricLabel, dataRefined, dimensionKey, metric
   const gridlines = new Plottable.Components.Gridlines(x, y);
   const body = new Plottable.Components.Group([gridlines, hourlyPlot]);
 
-  const title = `${displayNames.metric} by Hour of Day`;
+  const title = `Median ${displayNames.metric} by Hour of Day`;
   const titleLabel = new Plottable.Components.TitleLabel(title);
 
   const table = new Plottable.Components.Table([

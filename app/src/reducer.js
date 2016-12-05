@@ -13,6 +13,7 @@ data.forEach(d => {
 const initState = {
   data,
   primary : "statistics_viewCount",
+  filters : {},
   metrics : [
     // "category",
     // "contentDetails_duration",
@@ -151,6 +152,15 @@ function evaluate(datum, formula) {
 
 export default function(state=initState, action) {
   switch (action.type) {
+    case 'UPDATE_FILTER':
+      const {dimension, values} = action.payload;
+      return {
+        ...state,
+        filters : {
+          ...state.filters,
+          [dimension] : values
+        }
+      };
     case 'SET_PRIMARY_METRIC':
       return {
         ...state,

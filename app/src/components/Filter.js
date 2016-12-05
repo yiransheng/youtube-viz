@@ -5,12 +5,11 @@ import { Select } from 'antd';
 const Option = Select.Option;
 
 class Filter extends Component {
+  static defaultProps = {
+    onChange : () => null
+  }
   render() {
     const {items, values, onChange} = this.props;
-
-    function handleChange(value) {
-      console.log(`selected ${value}`);
-    }
 
     const children = items.map(item => {
       return <Option key={item}>{item}</Option>
@@ -21,7 +20,8 @@ class Filter extends Component {
         multiple
         style={{ minWidth: 240 }}
         placeholder=""
-        onChange={handleChange}
+        defaultValue={values || []}
+        onChange={onChange}
       >
         {children}
       </Select>
@@ -35,6 +35,7 @@ const select = (state) => {
   const dims = ["category"];
 
   return {
+    filters : state.filters,
     dimensions : dims.map(d => {
       return {
         dimension : d,
@@ -46,13 +47,23 @@ const select = (state) => {
 
 class Filters extends Component {
   render() {
-    const {dimensions} = this.props;
-    console.log(dimensions);
-    const filters = dimensions.map(d => {
+    const {dispatch, dimensions, filters} = this.props;
+    function handleFilterChange(dim, values) {
+      dispatch({
+        type : 'UPDATE_FILTER',
+        payload : {
+          dimension : dim,
+          values : values
+        }
+      });
+    }
+    const filtersElements = dimensions.map(d => {
       return (
-        <div>
-          <strong style={{ marginRight: '1em' }}>Filter by {d.dimension}: </strong>
-          <Filter items={d.items} key={d.dimension}/>
+        <div key={d.dimension}>
+          <strong style={{ marginRight: '1em' }}>Filter by video {d.dimension}: </strong>
+          <Filter items={d.items} 
+                  onChange = {vals => handleFilterChange(d.dimension, vals)}
+                  values={filters[d.dimension] || []}/>
         </div>
       );
     });
@@ -60,7 +71,7 @@ class Filters extends Component {
       <div className="bottom-spacing">
         <h2>Top Level Filter</h2>
         <br />
-        {filters}
+        {filtersElements}
       </div>
     )
   }

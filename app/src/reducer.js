@@ -67,7 +67,7 @@ initState.dimensions.forEach(dim => {
   }
   initState.metaData[dim] = {
     type : "Factor",
-    levels : uniq(data.map(x=>x[dim])).slice(0, 200)
+    levels : uniq(data.map(x=>x[dim]))
   }
 });
 

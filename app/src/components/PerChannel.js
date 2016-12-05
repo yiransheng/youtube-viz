@@ -8,6 +8,7 @@ import {
 } from 'd3';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {getFilteredData} from './selectors';
 
 import HorizBarChart from '../visualizations/bar';
 
@@ -21,14 +22,7 @@ class ChannelPlot extends Component {
 }
 
 function select(state) {
-    const keys = Object.keys(state.histPlots);
-    const filteredData = state.data.filter(d => {
-        const conditions = keys.map(k => {
-            const e = state.histPlots[k].ext;
-            return e ? (d[k] >= e[0] && d[k] <= e[1]) : true;
-        });
-        return sum(conditions) === keys.length;
-    });
+    const filteredData = getFilteredData(state);
     const metric = state.primary;
     const groupKey = state.primaryDimension;
 

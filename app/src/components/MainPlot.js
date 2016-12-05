@@ -11,6 +11,8 @@ import moment from 'moment';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import {getFilteredData} from './selectors';
+
 import BarChart from '../visualizations/BarChart';
 
 class MainPlot extends Component {
@@ -38,14 +40,7 @@ const aggregations = {
 }
 
 function select(state) {
-  const keys = Object.keys(state.histPlots);
-  const rawData = state.data.filter(d => {
-    const conditions = keys.map(k => {
-      const e = state.histPlots[k].ext;
-      return e ? (d[k] >= e[0] && d[k] <= e[1]) : true;
-    });
-    return sum(conditions) === keys.length;
-  });
+  const rawData = getFilteredData(state);
   const metric = state.primary;
   const groupKey = 'snippet_publishedAt';
   const aggregationType = 'MEDIAN';

@@ -5,7 +5,7 @@ import LeftPanel from './components/LeftPanel';
 import TwoColumn from './components/TwoColumn'; 
 import PrimaryMetric from './components/PrimaryMetric';
 import Filter from './components/Filter';
-import SummaryPlots from './SummaryPlots';
+import SummaryPlots from './components/SummaryPlots';
 import MainPlot from './components/MainPlot';
 import HODPlot from './components/HODPlot';
 

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import data from './yt_output_filter.json';
-import {range, snakeCase, includes} from 'lodash';
+import {range, snakeCase, includes, uniq} from 'lodash';
 
 const now = Date.now();
 
@@ -12,6 +12,7 @@ data.forEach(d => {
 
 const initState = {
   data,
+  primary : "statistics_viewCount",
   metrics : [
     // "category",
     // "contentDetails_duration",
@@ -55,6 +56,16 @@ const initState = {
   },
   histPlots : {}
 }
+
+initState.dimensions.forEach(dim => {
+  if (initState.metaData[dim]) {
+    return;
+  }
+  initState.metaData[dim] = {
+    type : "Factor",
+    levels : uniq(data.map(x=>x[dim])).slice(0, 200)
+  }
+});
 
 function brushReducer(state, action) {
   let {key, ext} = action.payload;
@@ -129,13 +140,22 @@ function evaluate(datum, formula) {
   if (formula.type === 'CallExpression') {
     const func = Math[formula.callee.name];
     const args = formula.arguments.map(arg => evaluate(datum, arg));
-    return func.apply(Math, args);
+    const val =  func.apply(Math, args);
+    if (val <= -Infinity || val >= Infinity) {
+      return NaN;
+    }
+    return val;
   }
   throw "Evaluation Error";
 }
 
 export default function(state=initState, action) {
   switch (action.type) {
+    case 'SET_PRIMARY_METRIC':
+      return {
+        ...state,
+        primary: action.payload
+      };
     case 'LOAD_DATA':
       return {
         ...state,

@@ -46,7 +46,7 @@ function select(state) {
     });
     return sum(conditions) === keys.length;
   });
-  const metric = 'statistics_viewCount';
+  const metric = state.primary;
   const groupKey = 'snippet_publishedAt';
   const aggregationType = 'MEDIAN';
 

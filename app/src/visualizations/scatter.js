@@ -15,14 +15,15 @@ function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metr
         .x(function(d) { return d[metric_x]; }, xScale)
         .y(function(d) { return d[metric_y]; }, yScale);
 
-    //const title = `${metric_y} versus ${metric_x}`;
-    //const titleLabel = new Plottable.Components.TitleLabel(title);
+    const title = `${metric_y_label} versus ${metric_x_label}`;
+    const titleLabel = new Plottable.Components.TitleLabel(title);
     const xTitle = metric_x_label;
     var xTitleLabel = new Plottable.Components.AxisLabel(xTitle);
     const yTitle = metric_y_label;
     var yTitleLabel = new Plottable.Components.AxisLabel(yTitle);
 
     var table = new Plottable.Components.Table([
+        [null, null, titleLabel],
         [ yTitleLabel, yAxis, plot],
         [null, null, xAxis],
         [null, null, xTitleLabel]
@@ -51,12 +52,13 @@ export default class ScatterChart extends Component {
     }
 
     render() {
+        const dimensions = this.props.dimensions;
         return (
             <div className="asp-ratio-wrapper">
                 <div className="asp-ratio-inner">
                     <svg ref="svg"
-                         width={880}
-                         height={360}
+                         width={dimensions.width}
+                         height={dimensions.height}
                     />
                 </div>
             </div>

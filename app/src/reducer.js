@@ -207,6 +207,11 @@ export default function(state=initState, action) {
         ...state,
         primary: action.payload
       };
+    case 'SET_SECONDARY_METRIC':
+      return {
+        ...state,
+        secondary: action.payload
+      };
     case 'SET_PRIMARY_DIMENSION':
       return {
         ...state,

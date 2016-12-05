@@ -6,6 +6,7 @@ import TwoColumn from './components/TwoColumn';
 import SummaryPlots from './SummaryPlots';
 import MainPlot from './components/MainPlot';
 import HODPlot from './components/HODPlot';
+//import ChannelPlot form './components/PerChannel';
 
 export default class App extends React.Component {
   render() {

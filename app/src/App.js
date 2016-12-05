@@ -19,7 +19,7 @@ export default class App extends React.Component {
         <Header />
         <TwoColumn>
           <LeftPanel />
-          <div className="with-padding">
+          <div className="with-padding" style={{ paddingTop: '2em' }}>
             <Filter />
             <SummaryPlots />
             <PrimaryMetric />

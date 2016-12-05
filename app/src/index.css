@@ -6,7 +6,7 @@
 body {
   /* overwrite library css */
   font-family: Roboto !important;
-  background: #f6f6f6 !important;
+  background: #f0f0f0 !important;
   min-height: 100vh !important;
 }
 
@@ -63,6 +63,11 @@ h2:before {
   color: #fefefe;
 }
 .dark h2 {
+  background: #444;
+  color: #f6f6f6;
+  border-top: 1px solid #cd201f;
+}
+.dark h2:before {
   background: transparent;
 }
 .light {

@@ -8,7 +8,7 @@ import Filter from './components/Filter';
 import SummaryPlots from './SummaryPlots';
 import MainPlot from './components/MainPlot';
 import HODPlot from './components/HODPlot';
-//import ChannelPlot form './components/PerChannel';
+import ChannelPlot from './components/PerChannel';
 
 export default class App extends React.Component {
   render() {
@@ -23,6 +23,7 @@ export default class App extends React.Component {
             <PrimaryMetric />
             <MainPlot />
             <HODPlot />
+            <ChannelPlot />
           </div>
         </TwoColumn>
       </div>

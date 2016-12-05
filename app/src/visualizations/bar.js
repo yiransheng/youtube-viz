@@ -13,28 +13,29 @@ function createHorizBarChart(data, metricLabel, dimensionKey, limit) {
     //videos per channel
     // a bit tricky because not based on a metric label
     // should use logic, if metric = 'Count' ...
-    const countPerChannel = d3.nest()
-        .key(function (d) {
-            return d[dimensionKey];
-        })
-        .rollup(function (v) {
-            return v.length;
-        })
-        .entries(data.slice(0, limit));
+    if (metricLabel == 'video count') {
+        const perChannel = d3.nest()
+            .key(function (d) {
+                return d[dimensionKey];
+            })
+            .rollup(function (v) {
+                return v.length;
+            })
+            .entries(data.slice(0, limit));
+    }else {
+        const perChannel = d3.nest()
+            .key(function (d) {
+                return d[dimensionKey];
+            })
+            .rollup(function (v) {
+                return d3.sum(v, function (d) {
+                    return d[metricLabel]
+                });
+            })
+            .entries(data.slice(0, limit));
+    }
 
-    const sumPerChannel = d3.nest()
-        .key(function (d) {
-            return d[dimensionKey];
-        })
-        .rollup(function (v) {
-            return d3.sum(v, function (d) {
-                return d[metricLabel]
-            });
-        })
-        .entries(data.slice(0, limit));
-
-    const data1 = new Plottable.Dataset(countPerChannel);
-    const data2 = new Plottable.Dataset(sumPerChannel);
+    const data1 = new Plottable.Dataset(perChannel);
 
     plot.addDataset(data1);
     plot

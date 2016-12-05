@@ -1,14 +1,16 @@
 import moment from 'moment';
 import data from './yt_output_filter.json';
-import {range, snakeCase, includes, uniq} from 'lodash';
+import {sortBy, range, snakeCase, includes, uniq} from 'lodash';
 
 // setup initial state
 const now = Date.now();
 
 data.forEach(d => {
   d.hour_of_day = moment(d.snippet_publishedAt).format("HH");
+  d.publish_year = moment(d.snippet_publishedAt).format("YYYY");
   d.statistics_age_days = (now - moment(d.snippet_publishedAt).toDate().getTime()) / (24 * 3600000);
   d.snippet_publishedAt = moment(d.snippet_publishedAt).toDate();
+  d.number_of_tags = (d.snippet_tags || []).length;
 });
 
 const initState = {
@@ -23,6 +25,7 @@ const initState = {
     // "contentDetails_projection",
     "duration_sec",
     "statistics_age_days",
+    "number_of_tags",
     // "id",
     // "snippet_categoryId",
     // "snippet_channelId",
@@ -40,9 +43,10 @@ const initState = {
   ],
   dimensions : [
     "category",
-    "id",
+    // "id",
     "snippet_channelTitle",
-    "hour_of_day"
+    "hour_of_day",
+    "publish_year"
   ],
   metaData : {
     "duration_sec" : {
@@ -72,7 +76,7 @@ initState.dimensions.forEach(dim => {
   }
   initState.metaData[dim] = {
     type : "Factor",
-    levels : uniq(data.map(x=>x[dim]))
+    levels : sortBy(uniq(data.map(x=>x[dim])))
   }
 });
 

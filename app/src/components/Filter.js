@@ -20,7 +20,7 @@ class Filter extends Component {
       <Select
         multiple
         style={{ minWidth: 240 }}
-        placeholder="Filter"
+        placeholder=""
         onChange={handleChange}
       >
         {children}
@@ -49,10 +49,17 @@ class Filters extends Component {
     const {dimensions} = this.props;
     console.log(dimensions);
     const filters = dimensions.map(d => {
-      return <Filter items={d.items} key={d.dimension}/>
+      return (
+        <div>
+          <strong style={{ marginRight: '1em' }}>Filter by {d.dimension}: </strong>
+          <Filter items={d.items} key={d.dimension}/>
+        </div>
+      );
     });
     return (
-      <div>
+      <div className="bottom-spacing">
+        <h2>Top Level Filter</h2>
+        <br />
         {filters}
       </div>
     )

@@ -44,9 +44,26 @@ body {
   flex-grow: 2;
 }
 /* utils */
+h2 {
+  border-top: 1px solid #222;
+  line-height: 2em;
+  background-color: #f6f6f6;
+  padding-left: 0.5em;
+}
+h2:before {
+  content: "";
+  display: block;
+  width: 35%;
+  height: 3px;
+  background: #222;
+  margin-left: -0.5em;
+}
 .dark {
   background: #222;
   color: #fefefe;
+}
+.dark h2 {
+  background: transparent;
 }
 .light {
   background: #fff;
@@ -65,15 +82,19 @@ body {
   min-height: 100vh;
   height: 100%;
 }
+.bottom-spacing {
+  margin-bottom: 2em;
+}
 .divider-bottom {
   width: 100%;
+  margin-bottom: 2em;
 }
 .divider-bottom:after {
+  margin-top: 1.5em;
   content: "";
   display: block;
-  width: calc(100% - 2em);
+  width: 100%;
   border-bottom: 1px solid #668;
-  transform: translate(1em, 0);
   height: 0.5em;
   margin-bottom: 0.5em;
 }

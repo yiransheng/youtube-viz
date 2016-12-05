@@ -62,9 +62,12 @@
     "react-dom": "^15.4.1",
     "react-measure": "^1.4.2",
     "react-redux": "^4.4.6",
+    "react-router5": "^4.0.1",
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
-    "reselect": "^2.5.4"
+    "redux-router5": "^4.2.3",
+    "reselect": "^2.5.4",
+    "router5": "^4.3.4"
   },
   "scripts": {
     "start": "node scripts/start.js",

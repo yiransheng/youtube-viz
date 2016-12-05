@@ -12,8 +12,6 @@ import {sortBy} from 'lodash';
 import Plottable from 'plottable/plottable';
 import React, {Component} from 'react';
 
-import Plot from './PlottableTimeline';
-
 const colorPalette = ["#7AC36A", "#5A9BD4", "#FAA75B", "#9E67AB", "#CE7058", "#D77FB4", "#F15A60", "#737373"];
 
 function durationDays(from, to) {
@@ -41,9 +39,9 @@ function createTimingChart({data, metricLabel, dataRefined, dimensionKey, metric
   const x = new Plottable.Scales.Time()
   const y = new Plottable.Scales.Linear();
 
-  const xMin = min(data, d=>d.x);
-  const xMax = max(data, d=>d.x.getTime() + d.duration);
-  x.domain([new Date(xMin), new Date(xMax)]);
+  const xMin = moment().startOf("day").toDate();
+  const xMax = moment().endOf("day").toDate();
+  x.domain([xMin, xMax]);
 
 
   const xAxis = new Plottable.Axes.Time(x, "bottom");

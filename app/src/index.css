@@ -101,6 +101,7 @@ h2:before {
 .divider-bottom.dark:after {
   border-bottom: 1px solid #ccc;
 }
+.sq-ratio-wrapper,
 .asp-ratio-wrapper {
   width: 100%;
   display: block;
@@ -109,6 +110,11 @@ h2:before {
 .asp-ratio-wrapper:after {
   padding-top: 42%;
   /* 16:9 ratio */
+  display: block;
+  content: '';
+}
+.sq-ratio-wrapper:after {
+  padding-top: 88%;
   display: block;
   content: '';
 }

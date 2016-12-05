@@ -110,12 +110,13 @@ export default class TimingChart extends Component {
   }
 
   render() {
+    const {dimensions={width:880,height:360}} = this.props;
     return (
-      <div className="asp-ratio-wrapper">
+      <div className="sq-ratio-wrapper">
         <div className="asp-ratio-inner">
           <svg ref="svg" 
-            width={880}
-            height={360}
+            width={dimensions.width}
+            height={dimensions.height}
             />
         </div>
       </div>

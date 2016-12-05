@@ -12,13 +12,30 @@ import moment from 'moment';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import Measure from 'react-measure';
 import TimingChart from '../visualizations/TimingChart';
 
 class HODPlot extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dimensions: {
+        width: 10,
+        height: 10
+      }
+    }
+  }
   render() {
     const {data} = this.props;
-    return <TimingChart data={data}
-             />
+    const chart = <TimingChart data={data} dimensions={this.state.dimensions} />
+    return (
+        <Measure 
+          onMeasure={(dimensions) => {
+            this.setState({dimensions})
+          }}>
+          {chart}
+        </Measure>
+    );
   }
 }
 

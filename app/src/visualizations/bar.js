@@ -69,8 +69,8 @@ function createHorizBarChart({ data, metricLabel, dimensionKey, limit, displayNa
 
     const table = new Plottable.Components.Table([
         [null, titleLabel],
-        [yAxis, plot]
-        // [null, xAxis]
+        [yAxis, plot],
+        [null, xAxis]
     ]);
 
     return table;
@@ -93,12 +93,13 @@ export default class HorizBarChart extends Component {
     }
 
     render() {
+        const {dimensions={width:880,height:360}} = this.props;
         return (
-            <div className="asp-ratio-wrapper">
+            <div className="sq-ratio-wrapper">
                 <div className="asp-ratio-inner">
                     <svg ref="svg"
-                         width={880}
-                         height={360}
+                         width={dimensions.width}
+                         height={dimensions.height}
                     />
                 </div>
             </div>

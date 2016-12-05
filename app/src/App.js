@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Row, Col } from 'antd';
+
 import Header from './components/Header';
 import LeftPanel from './components/LeftPanel';
 import TwoColumn from './components/TwoColumn'; 
@@ -9,7 +11,6 @@ import SummaryPlots from './components/SummaryPlots';
 import MainPlot from './components/MainPlot';
 import HODPlot from './components/HODPlot';
 import ChannelPlot from './components/PerChannel';
-import ScatterPlot from './components/ScatterPlot'
 
 export default class App extends React.Component {
   render() {
@@ -22,10 +23,19 @@ export default class App extends React.Component {
             <Filter />
             <SummaryPlots />
             <PrimaryMetric />
-            <MainPlot />
-            <HODPlot />
-            <ChannelPlot />
-            <ScatterPlot />
+            <Row gutter={16}>
+              <Col span={24}>
+                <MainPlot />
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col span={12}>
+                <ChannelPlot />
+              </Col>
+              <Col span={12}>
+                <HODPlot />
+              </Col>
+            </Row>
           </div>
         </TwoColumn>
       </div>

@@ -37,37 +37,17 @@ function summarize(data, func=median) {
   return sortBy(newData, d=>d.x);
 }
 
-function createTimingChart({data, metricLabel, dataRefined, dimensionKey, metricKey}) {
+function createTimingChart({data, metricLabel, dataRefined, dimensionKey, metricKey, displayNames}) {
   const x = new Plottable.Scales.Time()
   const y = new Plottable.Scales.Linear();
-
-
-  const plot = new Plot();
-
-  plot.x(d=>d.x, x)
-    .y(d=>d.y, y)
 
   const xMin = min(data, d=>d.x);
   const xMax = max(data, d=>d.x.getTime() + d.duration);
   x.domain([new Date(xMin), new Date(xMax)]);
 
-  const dataset = new Plottable.Dataset(data);
-  plot.addDataset(dataset);
 
   const xAxis = new Plottable.Axes.Time(x, "bottom");
   const yAxis = new Plottable.Axes.Numeric(y, "left");
-
-  const pzi = new Plottable.Interactions.PanZoom();
-  pzi.addYScale(y);
-  pzi.attachTo(plot);
-
-  const pziXAxis = new Plottable.Interactions.PanZoom();
-  pziXAxis.addXScale(x);
-  pziXAxis.attachTo(xAxis);
-
-  const pziYAxis = new Plottable.Interactions.PanZoom();
-  pziYAxis.addYScale(y);
-  pziYAxis.attachTo(yAxis);
 
   const dataByHourMedian = new Plottable.Dataset(summarize(data));
   // const dataByHourMean = new Plottable.Dataset(summarize(data, mean));
@@ -82,12 +62,16 @@ function createTimingChart({data, metricLabel, dataRefined, dimensionKey, metric
 
   const domainData = dataByHourMedian.data().filter(d=> isNumber(d.y) && !isNaN(d.y));
 
-  y.domain([min(domainData, d=>d.y), max(domainData, d=>d.y) * 2.5]);
+  y.domain([min(domainData, d=>d.y), max(domainData, d=>d.y) * 1.25]);
 
   const gridlines = new Plottable.Components.Gridlines(x, y);
-  const body = new Plottable.Components.Group([gridlines, hourlyPlot, plot]);
+  const body = new Plottable.Components.Group([gridlines, hourlyPlot]);
+
+  const title = `${displayNames.metric} by Hour of Day`;
+  const titleLabel = new Plottable.Components.TitleLabel(title);
+
   const table = new Plottable.Components.Table([
-    // [null, titleLabel],
+    [null, titleLabel],
     [yAxis, body],
     [null, xAxis]
   ]);
@@ -110,12 +94,14 @@ export default class TimingChart extends Component {
   }
 
   render() {
+    const {dimensions={width:880,height:360}} = this.props;
     return (
-      <div className="asp-ratio-wrapper">
+      <div className="sq-ratio-wrapper">
         <div className="asp-ratio-inner">
           <svg ref="svg" 
-            width={880}
-            height={360}
+            className="no-date"
+            width={dimensions.width}
+            height={dimensions.height}
             />
         </div>
       </div>

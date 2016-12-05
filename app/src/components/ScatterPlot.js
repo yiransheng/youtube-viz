@@ -40,7 +40,7 @@ function select(state) {
     });
 
     //Filter Outliers
-    
+
 
     return {data: subset,
         //XLabel, //doesn't work even when declared in Class above?

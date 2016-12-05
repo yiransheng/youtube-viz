@@ -1,6 +1,6 @@
 import moment from 'moment';
 import data from './yt_output_filter.json';
-import {range, snakeCase, includes} from 'lodash';
+import {range, snakeCase, includes, uniq} from 'lodash';
 
 const now = Date.now();
 
@@ -56,6 +56,16 @@ const initState = {
   },
   histPlots : {}
 }
+
+initState.dimensions.forEach(dim => {
+  if (initState.metaData[dim]) {
+    return;
+  }
+  initState.metaData[dim] = {
+    type : "Factor",
+    levels : uniq(data.map(x=>x[dim])).slice(0, 200)
+  }
+});
 
 function brushReducer(state, action) {
   let {key, ext} = action.payload;

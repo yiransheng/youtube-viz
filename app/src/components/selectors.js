@@ -5,7 +5,8 @@ import {
   includes,
   groupBy,
   snakeCase,
-  capitalize
+  capitalize,
+  cloneDeep
 } from 'lodash';
 import {
   sum,
@@ -78,9 +79,21 @@ const getDimensionLabel = (state) => {
   return label || formatKey(key);
 }
 
+function getPreset(state) {
+  const {data, metaData, metrics, dimensions, router, ...rest} = state;
+  const preset = cloneDeep(rest);
+  const formulas = Object.keys(state.metaData)
+    .map(k => {
+      return [k, state.metaData[k]];
+    })
+    .filter(([k, v]) => v.type === 'Formula')
+  return {preset, formulas};
+}
+
 export {
   getMetricLabel,
   getDimensionLabel,
   getFilteredData,
-  getFilteredDataWithoutHists
+  getFilteredDataWithoutHists,
+  getPreset
 }

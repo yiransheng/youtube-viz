@@ -3,6 +3,7 @@ import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import { router5Middleware, router5Reducer } from 'redux-router5';
 import {Provider} from 'react-redux';
 import createLogger from 'redux-logger';
+import {getPreset} from './components/selectors';
 
 import reducer from './reducer';
 
@@ -28,6 +29,10 @@ function configureStore(router, initialState) {
   }
 
   const store = createStoreWithMiddleware(rootReducer);
+  store.getPreset = () => {
+    return JSON.stringify(getPreset(store.getState()), null, 2);
+  };
+  window.store = store;
 
   return store;
 }

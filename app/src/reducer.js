@@ -1,6 +1,8 @@
 import moment from 'moment';
 import data from './yt_output_filter.json';
+import presets from './presets.json';
 import {sortBy, range, snakeCase, includes, uniq} from 'lodash';
+import jsep from 'jsep';
 
 // setup initial state
 const now = Date.now();
@@ -128,6 +130,7 @@ function addFormula(state, action) {
     ...state.metaData,
     [key] : {
       type : 'Formula',
+      raw : raw,
       description: `User added Formula: ${raw}`
     }
   }
@@ -164,8 +167,32 @@ function evaluate(datum, formula) {
   throw "Evaluation Error";
 }
 
+function applyPreset(state, action) {
+  const {preset, formulas} = action.payload;
+  const newState = {...state, ...preset};
+  const finalState = formulas.reduce((state, [k,v]) => {
+
+    return addFormula(state, {
+      type : 'ADD_FORMULA',
+      payload : {
+        name : k,
+        raw  : v.raw,
+        formula : jsep(v.raw)
+      }
+    });
+
+  }, newState);
+
+  return finalState;
+}
+
 export default function(state=initState, action) {
   switch (action.type) {
+    case 'LOAD_PRESET':
+      const id = action.payload;
+      return applyPreset(state, {
+        payload : presets[id-1]
+      });
     case 'UPDATE_FILTER':
       const {dimension, values} = action.payload;
       return {

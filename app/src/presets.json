@@ -1,0 +1,32 @@
+[
+  {
+    "preset": {
+      "primary": "statistics_viewCount",
+      "secondary": "duration_sec",
+      "primaryDimension": "snippet_channelTitle",
+      "filters": {
+        "category": [
+          "Gaming"
+        ]
+      },
+      "histPlots": {
+        "log_view": {
+          "ext": [
+            8.81875,
+            12.072916666666668
+          ]
+        }
+      }
+    },
+    "formulas": [
+      [
+        "log_view",
+        {
+          "type": "Formula",
+          "raw": "log(statistics_viewCount+1)",
+          "description": "User added Formula: log(statistics_viewCount+1)"
+        }
+      ]
+    ]
+  }
+]

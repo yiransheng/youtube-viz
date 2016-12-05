@@ -86,7 +86,7 @@ body {
   position: relative;
 }
 .asp-ratio-wrapper:after {
-  padding-top: 56.25%;
+  padding-top: 42%;
   /* 16:9 ratio */
   display: block;
   content: '';

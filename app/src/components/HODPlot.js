@@ -55,7 +55,7 @@ function select(state) {
     });
     return sum(conditions) === keys.length;
   });
-  const metric = 'statistics_viewCount';
+  const metric = state.primary;
   const data = sampleSize(rawData, 500)
     .map(d => {
       return {

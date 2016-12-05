@@ -14,6 +14,7 @@ import {
 
 function getBins(data, accessor, xScale) {
   data = accessor ? data.map(accessor) : data;
+  data = data.filter(d => !isNaN(d) && d < Infinity && d >-Infinity);
   const hist = histogram();
 
   if (xScale) {

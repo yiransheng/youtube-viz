@@ -130,7 +130,11 @@ function evaluate(datum, formula) {
   if (formula.type === 'CallExpression') {
     const func = Math[formula.callee.name];
     const args = formula.arguments.map(arg => evaluate(datum, arg));
-    return func.apply(Math, args);
+    const val =  func.apply(Math, args);
+    if (val <= -Infinity || val >= Infinity) {
+      return NaN;
+    }
+    return val;
   }
   throw "Evaluation Error";
 }

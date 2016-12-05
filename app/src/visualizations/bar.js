@@ -14,12 +14,13 @@ function createHorizBarChart(data, metricLabel, dimensionKey, limit) {
     // a bit tricky because not based on a metric label
     // should use logic, if metric = 'Count' ...
     if (metricLabel == 'video count') {
+        metricLabel = 'video count'
         const perChannel = d3.nest()
             .key(function (d) {
                 return d[dimensionKey];
             })
             .rollup(function (v) {
-                return v.length;
+                return {"video count": v.length};
             })
             .entries(data.slice(0, limit));
     }else {
@@ -35,7 +36,8 @@ function createHorizBarChart(data, metricLabel, dimensionKey, limit) {
             .entries(data.slice(0, limit));
     }
 
-    const data1 = new Plottable.Dataset(perChannel);
+    const sortedData = _.sortBy(perChannel, metricLabel);
+    const data1 = new Plottable.Dataset(sortedData);
 
     plot.addDataset(data1);
     plot
@@ -72,7 +74,7 @@ function createHorizBarChart(data, metricLabel, dimensionKey, limit) {
 }
 
 
-export default class BarChart extends Component {
+export default class HorizBarChart extends Component {
 
     componentDidMount() {
         this._chart = createBarChart(this.props);

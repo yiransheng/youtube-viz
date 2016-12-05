@@ -77,7 +77,7 @@ export default class Timeline extends Plottable.XYPlot {
       var x2Accessor = d => new Date(xAccessor(d).getTime() + durationAccessor(d));
       // var colorProjector = Plottable.Plot._scaledAccessor(this.color());
       propertyToProjectors["transform"] = function (datum, index, dataset) {
-          return "translate(" + xProjector(datum, index, dataset) + "," + (yProjector(datum, index, dataset)-5) + ")";
+          return "translate(" + xProjector(datum, index, dataset) + "," + (yProjector(datum, index, dataset)-2) + ")";
       };
       const xScale = this.x().scale;
       propertyToProjectors["width"] = function (datum, index, dataset) {
@@ -87,13 +87,13 @@ export default class Timeline extends Plottable.XYPlot {
           return Math.max(1, Math.abs(width));
       };
       propertyToProjectors["height"] = function (datum, index, dataset) {
-          return 10;
+          return 4;
       };
       propertyToProjectors["fill"] = function (datum, index, dataset) {
           return '#222';
       };
       propertyToProjectors["opacity"] = function (datum, index, dataset) {
-          return 0.2;
+          return 0.05;
       };
       return propertyToProjectors;
   }

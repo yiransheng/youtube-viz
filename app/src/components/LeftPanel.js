@@ -28,6 +28,18 @@ const columns = [
   //   dataIndex : "samples"
   // }
 ]
+const columnsDims = [
+  {
+    title : "Dimension",
+    key : "dimension",
+    dataIndex : "dimension"
+  },
+  {
+    title : "Type",
+    key : "type",
+    dataIndex : "type"
+  }
+]
 function formatKey(key) {
   const parts = snakeCase(key).split("_");
   return parts.map(capitalize).join(" ");
@@ -37,19 +49,29 @@ function select(state) {
   return {
     data : state.data,
     metrics : state.metrics,
+    dimensions : state.dimensions,
     metaData : state.metaData
   };
 }
 
 class LeftPanel extends Component {
   render() {
-    const {metrics, metaData, data:dataset} = this.props;
+    const {metrics, dimensions, metaData, data:dataset} = this.props;
     const data = metrics.map((d,i) => {
       return {
         key : i,
         metric: d,
         type: get(metaData[d], "type") || "INT",
         description: get(metaData[d], "description") || `${formatKey(d)} of a video: Integer.`,
+        samples : '[' + sampleSize(dataset, 3).map(datum=>datum[d]).join(", ") + ']'
+      }
+    });
+    const dataDims = dimensions.map((d,i) => {
+      return {
+        key : i,
+        dimension: d,
+        type: get(metaData[d], "type") || "Factor",
+        description: get(metaData[d], "description") || `${formatKey(d)} of a video.`,
         samples : '[' + sampleSize(dataset, 3).map(datum=>datum[d]).join(", ") + ']'
       }
     });
@@ -67,7 +89,7 @@ class LeftPanel extends Component {
         <div className="light">
           <Table size="small" columns={columns} 
                  dataSource={data} 
-                 expandedRowRender={record => <p>{record.description}</p>}
+                 expandedRowRender={record => <div><p>{record.description}</p><p>{'Samples: ' + record.samples}</p></div>}
                  />
         </div>
         <div className="with-padding-y">
@@ -80,6 +102,10 @@ class LeftPanel extends Component {
           <h2>Dimensions</h2>
         </div>
         <div className="light">
+          <Table size="small" columns={columnsDims} 
+                 dataSource={dataDims} 
+                 expandedRowRender={record => <div><p>{record.description}</p><p>{'Samples: ' + record.samples}</p></div>}
+                 />
         </div>
       </div>
     );

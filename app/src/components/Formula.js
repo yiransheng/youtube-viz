@@ -9,6 +9,7 @@ const idents = new Set([
     // "contentDetails_duration",
     // "contentDetails_projection",
     "duration_sec",
+    "statistics_age_days",
     // "id",
     // "snippet_categoryId",
     // "snippet_channelId",

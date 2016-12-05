@@ -1,8 +1,12 @@
 import moment from 'moment';
 import data from './yt_output_filter.json';
-import {snakeCase, includes} from 'lodash';
+import {range, snakeCase, includes} from 'lodash';
+
+const now = Date.now();
 
 data.forEach(d => {
+  d.hour_of_day = moment(d.snippet_publishedAt).format("HH");
+  d.statistics_age_days = (now - moment(d.snippet_publishedAt).toDate().getTime()) / (24 * 3600000);
   d.snippet_publishedAt = moment(d.snippet_publishedAt).toDate();
 });
 
@@ -13,6 +17,7 @@ const initState = {
     // "contentDetails_duration",
     // "contentDetails_projection",
     "duration_sec",
+    "statistics_age_days",
     // "id",
     // "snippet_categoryId",
     // "snippet_channelId",
@@ -31,12 +36,21 @@ const initState = {
   dimensions : [
     "category",
     "id",
-    "snippet_channelTitle"
+    "snippet_channelTitle",
+    "hour_of_day"
   ],
   metaData : {
     "duration_sec" : {
       type : "INT",
       description: "Duration of a video in seconds."
+    },
+    "hour_of_day" : {
+      type : "Factor",
+      description : "Hour of the day for a video's published timestamp.",
+      levels : range(24).map(i => {
+        i = i.toString();
+        return i.length < 2 ? '0' + i : i;
+      })
     }
   },
   histPlots : {}

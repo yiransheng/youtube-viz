@@ -49,8 +49,13 @@ const initState = {
       type : "INT",
       description: "Duration of a video in seconds."
     },
+    "snippet_channelTitle" : {
+      type : "Factor",
+      label : "Channels"
+    },
     "hour_of_day" : {
       type : "Factor",
+      label : "Hour of Day",
       description : "Hour of the day for a video's published timestamp.",
       levels : range(24).map(i => {
         i = i.toString();

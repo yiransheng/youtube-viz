@@ -1,8 +1,11 @@
 import {
   isNumber,
   toPairs,
+  get,
   includes,
-  groupBy
+  groupBy,
+  snakeCase,
+  capitalize
 } from 'lodash';
 import {
   sum,
@@ -51,7 +54,33 @@ const getFilteredData = createSelector(
   }
 );
 
+function formatKey(key) {
+  const parts = snakeCase(key).split("_");
+  return parts
+    .filter(p => p !== 'statistics' && p !== 'snippet')
+    .map(capitalize)
+    .join(" ");
+}
+const getMetricLabel = (state) => {
+  const key = state.primary;
+  if (!key) {
+    return '<Choose Metric>';
+  };
+  const label = get(state.metaData[key], 'label'); 
+  return label || formatKey(key);
+}
+const getDimensionLabel = (state) => {
+  const key = state.primaryDimension;
+  if (!key) {
+    return '<Choose Dimension>';
+  };
+  const label = get(state.metaData[key], 'label'); 
+  return label || formatKey(key);
+}
+
 export {
+  getMetricLabel,
+  getDimensionLabel,
   getFilteredData,
   getFilteredDataWithoutHists
 }

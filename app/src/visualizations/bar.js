@@ -4,7 +4,7 @@ import Plottable from 'plottable/plottable';
 import React, {Component} from 'react';
 
 
-function createHorizBarChart({ data, metricLabel, dimensionKey, limit }) {
+function createHorizBarChart({ data, metricLabel, dimensionKey, limit, displayNames }) {
     dimensionKey = dimensionKey || 'snippet_channelTitle';
     limit = limit || 5; // default limit is 5
 
@@ -61,7 +61,7 @@ function createHorizBarChart({ data, metricLabel, dimensionKey, limit }) {
     });
     interaction.attachTo(plot);
 
-    const title = `Top ${limit} channels by ${metricLabel}`;
+    const title = `Top ${limit} ${displayNames.dimension} by ${displayNames.metric}`;
     const titleLabel = new Plottable.Components.TitleLabel(title);
 
     var xAxis = new Plottable.Axes.Numeric(xScale, "bottom");
@@ -69,8 +69,8 @@ function createHorizBarChart({ data, metricLabel, dimensionKey, limit }) {
 
     const table = new Plottable.Components.Table([
         [null, titleLabel],
-        [yAxis, plot],
-        [null, xAxis]
+        [yAxis, plot]
+        // [null, xAxis]
     ]);
 
     return table;

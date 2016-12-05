@@ -13,6 +13,7 @@ data.forEach(d => {
 const initState = {
   data,
   primary : "statistics_viewCount",
+  secondary: "duration_sec",
   primaryDimension: "snippet_channelTitle",
   filters : {},
   metrics : [

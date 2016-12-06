@@ -3,6 +3,7 @@ import loggerPlugin from 'router5/plugins/logger';
 import listenersPlugin from 'router5/plugins/listeners';
 import browserPlugin from 'router5/plugins/browser';
 import routes from './routes';
+import {groupBy, values} from 'lodash';
 
 import transitionPath from 'router5.transition-path';
 
@@ -18,6 +19,14 @@ const dataMiddlewareFactory = (routes) => (router, deps) => (toState, fromState)
 
   return Promise.all(actions)
     .then(actions => {
+       actions = values(groupBy(actions, a=>a.type))
+         .map(acts => {
+           const type = acts[0].type;
+           const payload = acts[acts.length-1].payload;
+           return {
+             type, payload
+           }
+         });
        actions.forEach(deps.store.dispatch);
        return {toState};
     })

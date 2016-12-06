@@ -190,6 +190,9 @@ export default function(state=initState, action) {
   switch (action.type) {
     case 'LOAD_PRESET':
       const id = action.payload;
+      if (id <= 0) {
+        return initState;
+      };
       return applyPreset(initState, {
         payload : presets[id-1]
       });

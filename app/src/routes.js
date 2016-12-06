@@ -1,6 +1,13 @@
 export default [
     { name: 'home',         path: '/' },
-    { name: 'report', path: '/report' },
+    { name: 'report', path: '/report',  
+      onActivate : (params) => {
+        return {
+          type : 'LOAD_PRESET',
+          payload : -1
+        }
+      }
+    },
     { name: 'report.preset', path: '/preset/:state',
       onActivate : (params) => {
         try {

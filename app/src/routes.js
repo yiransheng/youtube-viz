@@ -1,5 +1,8 @@
 export default [
-    { name: 'home',         path: '/' },
+    { 
+      name: 'home',
+      path: '/' 
+    },
     { name: 'report', path: '/report',  
       onActivate : (params) => {
         return {

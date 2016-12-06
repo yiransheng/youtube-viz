@@ -57,7 +57,7 @@ class App extends React.Component {
     const go = (name, params) => {
       dispatch(actions.navigateTo(name, params));
     }
-    if (route.name === 'report' || route.name === 'report.preset') {
+    if (route && route.name === 'report' || route.name === 'report.preset') {
       return <Report />;
     } else {
       return <Home onClick={go}/>;

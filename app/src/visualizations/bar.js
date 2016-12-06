@@ -57,7 +57,14 @@ function createHorizBarChart({ data, metricLabel, dimensionKey, limit, displayNa
             entity.selection.attr("fill", "steelblue");
         });
         var entity = plot.entityNearest(b);
-        entity && entity.selection.attr("fill", "red");
+        entity && entity.selection.attr("fill", "orange");
+    });
+    interaction.offPointerMove(function (b) {
+        plot.entities().forEach(function (entity) {
+            entity.selection.attr("fill", "steelblue");
+        });
+        var entity = plot.entityNearest(b);
+        entity && entity.selection.attr("fill", "steelblue");
     });
     interaction.attachTo(plot);
 

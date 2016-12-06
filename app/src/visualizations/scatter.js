@@ -70,6 +70,7 @@ function findLineByLeastSquares(values_x, values_y) {
 function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metric_y}) {
     var xScale = new Plottable.Scales.Linear();
     var yScale = new Plottable.Scales.Linear();
+
     var metric_x_label = metric_x_label || "X";
     var metric_y_label = metric_y_label || "Y";
 
@@ -81,18 +82,6 @@ function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metr
     var xAxis = new Plottable.Axes.Numeric(xScale, "bottom");
     var yAxis = new Plottable.Axes.Numeric(yScale, "left");
 
-    var plot = new Plottable.Plots.Scatter()
-        .addDataset(new Plottable.Dataset(data))
-        .x(function(d) { return d[metric_x]; }, xScale)
-        .y(function(d) { return d[metric_y]; }, yScale)
-        .size(function (d) {return d["radius"]; });
-
-    var line = new Plottable.Plots.Line()
-      .addDataset(regressionData)
-      .attr("stroke", "black")
-      .x(d => d[0], xScale)
-      .y(d => d[1], yScale);
-
     const title = `${metric_y_label} versus ${metric_x_label}`;
     const titleLabel = new Plottable.Components.TitleLabel(title);
     const xTitle = metric_x_label;
@@ -100,13 +89,46 @@ function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metr
     const yTitle = metric_y_label;
     var yTitleLabel = new Plottable.Components.AxisLabel(yTitle).angle(-90);
 
+    var plot = new Plottable.Plots.Scatter()
+        .addDataset(new Plottable.Dataset(data))
+        .x(function(d) { return d[metric_x]; }, xScale)
+        .y(function(d) { return d[metric_y]; }, yScale)
+        .size(function (d) {return d["radius"]; });
+
+    var interaction = new Plottable.Interactions.Pointer();
+    interaction.onPointerMove(function (b) {
+        plot.entities().forEach(function (entity) {
+            entity.selection.attr("fill", "steelblue");
+        });
+        var entity = plot.entityNearest(b);
+        entity && entity
+            .selection
+            .attr("fill", "orange");
+        title.text(entity.datum.radius);
+    });
+    interaction.offPointerMove(function (b) {
+        plot.entities().forEach(function (entity) {
+            entity.selection.attr("fill", "steelblue");
+        });
+        var entity = plot.entityNearest(b);
+        entity && entity.selection.attr("fill", "steelblue");
+    });
+    interaction.attachTo(plot);
+
+    var line = new Plottable.Plots.Line()
+      .addDataset(regressionData)
+      .attr("stroke", "black")
+      .x(d => d[0], xScale)
+      .y(d => d[1], yScale);
+
     const body = new Plottable.Components.Group([plot, line]);
+    const legend = new Plottable.Components.Legend(xScale);
 
     var table = new Plottable.Components.Table([
-        [null, null, titleLabel],
-        [yTitleLabel, yAxis, body],
-        [null, null, xAxis],
-        [null, null, xTitleLabel]
+        [null, null, null, null],
+        [yTitleLabel, yAxis, body, legend],
+        [null, null, xAxis, null],
+        [null, null, xTitleLabel, null]
     ]);
 
     return table;

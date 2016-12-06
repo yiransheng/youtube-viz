@@ -216,6 +216,11 @@ export default function(state=initState, action) {
         ...state,
         secondary: action.payload
       };
+    case 'SET_RADIUS_METRIC':
+      return {
+        ...state,
+        primaryRadius: action.payload
+      };
     case 'SET_PRIMARY_DIMENSION':
       return {
         ...state,

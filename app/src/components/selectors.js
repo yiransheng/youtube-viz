@@ -78,6 +78,14 @@ const getMetricLabelSecondary = (state) => {
   const label = get(state.metaData[key], 'label'); 
   return label || formatKey(key);
 }
+const getMetricLabelTertiary = (state) => {
+  const key = state.primaryRadius;
+  if (!key) {
+    return '<Choose Metric>';
+  };
+  const label = get(state.metaData[key], 'label'); 
+  return label || formatKey(key);
+}
 const getDimensionLabel = (state) => {
   const key = state.primaryDimension;
   if (!key) {
@@ -101,6 +109,7 @@ function getPreset(state) {
 export {
   getMetricLabel,
   getMetricLabelSecondary,
+  getMetricLabelTertiary,
   getDimensionLabel,
   getFilteredData,
   getFilteredDataWithoutHists,

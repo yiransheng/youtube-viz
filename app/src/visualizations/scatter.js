@@ -1,7 +1,11 @@
 import Plottable from 'plottable/plottable'
 import React, {Component} from 'react';
 
+import {XYLabel} from './Labels'; 
+
+import {isEqual} from 'lodash';
 import {
+  format,
   min,
   max
 } from 'd3';
@@ -67,9 +71,10 @@ function findLineByLeastSquares(values_x, values_y) {
 }
 
 
-function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metric_y}) {
+function createScatterPlot({data, metric_x_label, metric_y_label, metric_size_label, metric_x, metric_y}) {
     var xScale = new Plottable.Scales.Linear();
     var yScale = new Plottable.Scales.Linear();
+    var sizeScale = new Plottable.Scales.Linear().range([2, 25]);
 
     var metric_x_label = metric_x_label || "X";
     var metric_y_label = metric_y_label || "Y";
@@ -93,27 +98,47 @@ function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metr
         .addDataset(new Plottable.Dataset(data))
         .x(function(d) { return d[metric_x]; }, xScale)
         .y(function(d) { return d[metric_y]; }, yScale)
-        .size(function (d) {return d["radius"]; });
+        .attr("opacity", 0.65)
+        .attr("fill", d=> d.active ? "orange" : "steelblue")
+        .size(function (d) {return d["radius"]; }, sizeScale);
+
+    var formatter = format(".3");
+    var tooltip = new XYLabel()
+      .x(function(d) { return d[metric_x]; }, xScale)
+      .y(function(d) { return d[metric_y]; }, yScale)
+      .label(d => `${metric_size_label}: ${formatter(d.radius)}`);
+
+    var tooltipData = new Plottable.Dataset([]);
+    tooltip.addDataset(tooltipData);
 
     var interaction = new Plottable.Interactions.Pointer();
     interaction.onPointerMove(function (b) {
-        plot.entities().forEach(function (entity) {
-            entity.selection.attr("fill", "steelblue");
-        });
+        if (dragBox && dragBox.__bound__) {
+          return;
+        }
         var entity = plot.entityNearest(b);
-        entity && entity
-            .selection
-            .attr("fill", "orange");
-        title.text(entity.datum.radius);
-    });
-    interaction.offPointerMove(function (b) {
-        plot.entities().forEach(function (entity) {
-            entity.selection.attr("fill", "steelblue");
+        var datum = entity ? entity.datum : null;
+        plot.entities().forEach(function (e) {
+          e.datum.active = e.datum === datum;
         });
-        var entity = plot.entityNearest(b);
-        entity && entity.selection.attr("fill", "steelblue");
+        if (entity) {
+          tooltipData.data([entity.datum]);
+        } else {
+          tooltipData.data([]);
+        }
     });
     interaction.attachTo(plot);
+    interaction.__attached__ = true;
+
+    function clearPointer() {
+      if (!interaction.__attached__) return;
+      plot.entities().forEach(function (e) {
+        e.datum.active = false;
+      });
+      interaction.detachFrom(plot);
+      tooltipData.data([]);
+      interaction.__attached__ = false;
+    }
 
     var line = new Plottable.Plots.Line()
       .addDataset(regressionData)
@@ -121,14 +146,36 @@ function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metr
       .x(d => d[0], xScale)
       .y(d => d[1], yScale);
 
-    const body = new Plottable.Components.Group([plot, line]);
+    var dragBox = new Plottable.Components.DragBoxLayer();
+
+    dragBox.onDragStart(function() {
+      clearPointer();
+    });
+    dragBox.onDragEnd(function (bound) {
+      // no selection
+      if (isEqual(bound.topLeft, bound.bottomRight)) {
+        !interaction.__attached__ && interaction.attachTo(plot);
+        dragBox.__bound__ = null;
+      } else {
+        dragBox.__bound__ = bound;
+        clearPointer();
+      }
+      plot.entities()
+        .forEach(e => e.datum.active = false);
+      const entities = plot.entitiesIn(bound)
+      entities
+        .forEach(e => e.datum.active = true);
+      tooltipData.data(entities.map(e => e.datum));
+    });
+
+    const body = new Plottable.Components.Group([plot, line, tooltip, dragBox]);
     const legend = new Plottable.Components.Legend(xScale);
 
     var table = new Plottable.Components.Table([
-        [null, null, null, null],
-        [yTitleLabel, yAxis, body, legend],
-        [null, null, xAxis, null],
-        [null, null, xTitleLabel, null]
+        [null, null, null],
+        [yTitleLabel, yAxis, body],
+        [null, null, xAxis],
+        [null, null, xTitleLabel]
     ]);
 
     return table;

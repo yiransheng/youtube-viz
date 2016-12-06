@@ -2,63 +2,48 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { Menu, Dropdown, Button, Icon, message } from 'antd';
 
+export class MetricSelect extends Component {
+  render() {
+    const {label, metrics, current, onChange, type} = this.props;
+    const handleChange = (e) => {
+      onChange(type, e.key);
+    }
+    const menuItems = metrics.filter(m => m !== current).map((m) => {
+      return (
+        <Menu.Item key={m}>
+          <span>{m}</span>
+        </Menu.Item>
+      );
+    });
+    const menu = (
+      <Menu onClick={handleChange}>
+        {menuItems}
+      </Menu>
+    );
+    return (
+      <Dropdown overlay={menu}>
+        <Button type="ghost" style={{ marginLeft: 8 }}>
+          <strong>{label}: </strong> {current} <Icon type="down" />
+        </Button>
+      </Dropdown>
+    );
+  }
+}
+
 class PrimaryMetric extends Component {
 
   render() {
     const {dispatch, metrics, primary, secondary} = this.props;
-
-    function handleMenuClick1(e) {
-      dispatch({
-        type : 'SET_PRIMARY_METRIC',
-        payload : e.key
-      });
-    }
-    function handleMenuClick2(e) {
-      dispatch({
-        type : 'SET_SECONDARY_METRIC',
-        payload : e.key
-      });
-    }
-
-    const menuItems1 = metrics.filter(m => m !== primary).map((m) => {
-      return (
-        <Menu.Item key={m}>
-          <span>{m}</span>
-        </Menu.Item>
-      );
-    });
-    const menuItems2 = metrics.filter(m => m !== secondary).map((m) => {
-      return (
-        <Menu.Item key={m}>
-          <span>{m}</span>
-        </Menu.Item>
-      );
-    });
-    const menu1 = (
-      <Menu onClick={handleMenuClick1}>
-        {menuItems1}
-      </Menu>
-    );
-    const menu2 = (
-      <Menu onClick={handleMenuClick2}>
-        {menuItems2}
-      </Menu>
-    );
     return (
       <div className="divider-bottom">
         <h3>Select Metrics</h3>
         <p>Changing metrics dynamically affects all plots below.</p>
         <br />
-        <Dropdown overlay={menu1}>
-          <Button type="ghost" style={{ marginLeft: 8 }}>
-            <strong>Primary Metric: </strong> {primary} <Icon type="down" />
-          </Button>
-        </Dropdown>
-        <Dropdown overlay={menu2}>
-          <Button type="ghost" style={{ marginLeft: 8 }}>
-            <strong>Secondary Metric: </strong> {secondary} <Icon type="down" />
-          </Button>
-        </Dropdown>
+        <MetricSelect label="Primary Metric"
+          type="SET_PRIMARY_METRIC"
+          current={primary}
+          metrics={metrics}
+          onChange={(type, metric) => dispatch({ type, payload: metric })} />
       </div>
     );
   }

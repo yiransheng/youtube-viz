@@ -1,4 +1,27 @@
-# YT8M
+# Youtube Data Visualization
+
+> A MIDS W209 Final Project
+
+
+
+This is a placeholder of quick summary.
+
+![](screenshot.png)
+
+## Overview
+
+Built with the following libraries:
+
+- d3
+- plottable.js
+- React
+- Redux
+
+### Features
+
+- Dynamic Reporting
+- Configurable metrics and calculations
+- Cross-filtering
 
 ## Python Preprocessing
 

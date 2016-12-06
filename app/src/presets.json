@@ -83,9 +83,10 @@
   },
 {
   "preset": {
-    "primary": "log_like_view_ratio",
-    "secondary": "duration_sec",
+    "primary": "duration_sec",
+    "secondary": "log_like_view_ratio",
     "primaryDimension": "category",
+    "primaryRadius": "statistics_likeCount",
     "filters": {},
     "histPlots": {
       "log_like_view_ratio": {

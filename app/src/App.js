@@ -1,7 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {actions} from 'redux-router5';
 
 import { Row, Col } from 'antd';
 
+import Home from './components/Home';
 import Header from './components/Header';
 import LeftPanel from './components/LeftPanel';
 import TwoColumn from './components/TwoColumn'; 
@@ -13,7 +16,7 @@ import HODPlot from './components/HODPlot';
 import ChannelPlot from './components/PerChannel';
 import ScatterPlot from './components/ScatterPlot';
 
-export default class App extends React.Component {
+class Report extends React.Component {
   render() {
     return (
       <div>
@@ -46,3 +49,20 @@ export default class App extends React.Component {
     );
   }
 }
+
+class App extends React.Component {
+
+  render() {
+    const {dispatch, route} = this.props;
+    const go = (name, params) => {
+      dispatch(actions.navigateTo(name, params));
+    }
+    if (route.name === 'report' || route.name === 'report.preset') {
+      return <Report />;
+    } else {
+      return <Home onClick={go}/>;
+    }
+  }
+}
+
+export default connect(state => state.router)(App);

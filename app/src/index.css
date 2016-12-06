@@ -179,6 +179,32 @@ h2:before {
   stroke-dasharray: 1 2;
 }
 
+/* tasks */
+.task {
+  width: 100%;
+  margin: 1.5rem auto;
+  max-width: 960px;
+  font-size: 1.2em;
+  background-color:rgb(255,255,255);
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);
+  border-radius: 3px;
+  padding: 0.5em 1em;
+}
+.task-title {
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f0f0f0;
+  display: block;
+  font-size: 1.2em;
+  margin-bottom: 0.75em;
+}
+.task-body {
+
+}
+.task:first-child {
+  margin-top: 5em;
+}
+
 /* misc */
 .no-date .time-axis .content .time-axis-tier:last-child text {
   fill: transparent;

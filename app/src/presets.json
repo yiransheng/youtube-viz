@@ -28,5 +28,76 @@
         }
       ]
     ]
+  },
+  {
+    "preset": {
+      "primary": "statistics_likeCount",
+      "secondary": "duration_sec",
+      "primaryDimension": "snippet_channelTitle",
+      "filters": {
+        "category": [
+          "Gaming"
+        ]
+      },
+      "histPlots": {}
+    },
+    "formulas": []
+  },
+  {
+    "preset": {
+      "primary": "like_view_ratio",
+      "secondary": "duration_sec",
+      "primaryDimension": "snippet_channelTitle",
+      "filters": {},
+      "histPlots": {}
+    },
+    "formulas": [
+      [
+        "like_view_ratio",
+        {
+          "type": "Formula",
+          "raw": "statistics_likeCount / statistics_viewCount",
+          "description": "User added Formula: statistics_likeCount / statistics_viewCount"
+        }
+      ]
+    ]
+  },
+  {
+    "preset": {
+      "primary": "like_view_ratio",
+      "secondary": "duration_sec",
+      "primaryDimension": "snippet_channelTitle",
+      "filters": {},
+      "histPlots": {}
+    },
+    "formulas": [
+      [
+        "like_view_ratio",
+        {
+          "type": "Formula",
+          "raw": "statistics_likeCount / statistics_viewCount",
+          "description": "User added Formula: statistics_likeCount / statistics_viewCount"
+        }
+      ]
+    ]
+  },
+  {
+    "preset": {
+      "primary": "duration_sec",
+      "secondary": "like_view_ratio",
+      "primaryDimension": "category",
+      "filters": {},
+      "histPlots": {}
+    },
+    "formulas": [
+      [
+        "like_view_ratio",
+        {
+          "type": "Formula",
+          "raw": "statistics_likeCount / statistics_viewCount",
+          "description": "User added Formula: statistics_likeCount / statistics_viewCount"
+        }
+      ]
+    ]
   }
 ]

@@ -62,8 +62,8 @@ function select(state) {
     const subset = sampleSize(filteredData, 500)
     .map(d => {
         return {
-             "x": d[state.primary],
-             "y": d[state.secondary]
+             "y": d[state.primary],
+             "x": d[state.secondary]
         }
     });
 
@@ -71,8 +71,8 @@ function select(state) {
 
 
     return {data: subset,
-        metric_x_label: XLabel,
-        metric_y_label: YLabel,
+        metric_x_label: YLabel,
+        metric_y_label: XLabel,
     };
 }
 

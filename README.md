@@ -1,7 +1,9 @@
 # Youtube Data Visualization
 
 > A MIDS W209 Final Project
+Fall 2016  
 
+Yiran Sheng, Safyre Anderson, Alejandro Rojas
 
 
 [Demo Link](https://yiransheng.github.io/youtube-viz/index.html)

@@ -28,7 +28,7 @@ export default function configureRouter(useListenersPlugin = false) {
     // Plugins
     .usePlugin(loggerPlugin)
     .usePlugin(browserPlugin({
-      useHash: false
+      useHash: true
     }));
 
   if (useListenersPlugin) {

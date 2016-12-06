@@ -6,7 +6,7 @@ export default class Task extends Component {
   render() {
     const {task, index, presetId, taskPrefix='Task', onClick} = this.props;
     const taskLabel = `${taskPrefix} ${index >= 0 ? index+1 : ''}`;
-    const link = presetId > 0 ? `report/preset/${presetId}` : 'report';
+    const link = presetId > 0 ? `#/report/preset/${presetId}` : '#/report';
 
     const handleClick = (e) => {
       e.preventDefault();

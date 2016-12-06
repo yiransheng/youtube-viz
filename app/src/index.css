@@ -142,6 +142,7 @@ h2:before {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 
 .add-hist {
@@ -151,6 +152,16 @@ h2:before {
   margin: 25px;
   border: 2px dashed #222;
   padding: 90px 15px 0; 
+  cursor: pointer;
+  text-align: center;
+}
+.add-hist-small {
+  box-sizing: border-box;
+  width: 200px;
+  height: 50px;
+  margin: 25px;
+  border: 2px dashed #222;
+  padding: 15px 15px 0; 
   cursor: pointer;
   text-align: center;
 }

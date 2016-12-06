@@ -100,7 +100,7 @@ class Plot extends React.Component {
         <h2>Metric Summary</h2>
         <div className="hists">
           {plots}
-          <div className="add-hist" onClick={() => this.setState({ showModal:true })}>
+          <div className={plots.length > 2 ? 'add-hist-small' : 'add-hist'} onClick={() => this.setState({ showModal:true })}>
             Add Plot +
           </div>
           <Modal visible={this.state.showModal}

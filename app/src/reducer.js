@@ -190,7 +190,7 @@ export default function(state=initState, action) {
   switch (action.type) {
     case 'LOAD_PRESET':
       const id = action.payload;
-      return applyPreset(state, {
+      return applyPreset(initState, {
         payload : presets[id-1]
       });
     case 'UPDATE_FILTER':

@@ -4,6 +4,10 @@
 
 
 
+[Demo Link](https://yiransheng.github.io/youtube-viz/index.html)
+
+
+
 This is a placeholder of quick summary.
 
 ![](screenshot.png)
@@ -23,18 +27,22 @@ Built with the following libraries:
 - Configurable metrics and calculations
 - Cross-filtering
 
+## Dataset
+
+TODO
+
 ## Python Preprocessing
 
 See [notebook](./data/YT-DominantColor.ipynb)
 
 It contains short python code of downloading video thumbnails, and output dataset as json file.
 
-## d3 stuff
+## Installation
 
 Once installed dependencies (`nodejs`, `npm`), the app can be run as:
 
-```
-cd yt8m
+```bash
+cd app
 npm install
 npm start
 ```

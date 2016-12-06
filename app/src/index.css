@@ -17,7 +17,7 @@ body {
   height: 6em;
   text-align: center;
   background: #bb0000; /* youtube brand color */
-  color: #f6f6f6;
+  color: #efefef;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +25,29 @@ body {
 .main-header img{
   height: 100%;
   margin: 0 2em;
+}
+footer {
+  width: 100%;
+  height: 3em;
+  background: #440000; /* youtube brand color */
+  color: #f6f6f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+}
+footer a:hover,
+footer a:visited,
+footer a {
+  text-decoration: none;
+  color: #fff;
+}
+.footer-divider {
+  margin: 0 1em;
+}
+footer .author {
+  padding: 0 0.5em;
 }
 
 .two-column {

@@ -21,7 +21,6 @@ export default class Home extends Component {
     });
     return (
       <div>
-        <Header />
         <br />
         <Task key="main"
               onClick={this.props.onClick}

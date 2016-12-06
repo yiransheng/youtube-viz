@@ -9,6 +9,7 @@ import {
   getMetricLabel,
   getMetricLabelSecondary
 } from './selectors';
+import max from "d3";
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
@@ -63,7 +64,8 @@ function select(state) {
     .map(d => {
         return {
              "y": d[state.primary],
-             "x": d[state.secondary]
+             "x": d[state.secondary],
+             "radius": Math.log(d[state.primaryRadius] +1)
         }
     });
 

@@ -20,6 +20,7 @@ const initState = {
   primary : "statistics_viewCount",
   secondary: "duration_sec",
   primaryDimension: "snippet_channelTitle",
+  primaryRadius: "statistics_likeCount",
   filters : {},
   metrics : [
     // "category",

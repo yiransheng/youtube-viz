@@ -20,7 +20,7 @@ function findLineByLeastSquares(values_x, values_y) {
     var y = 0;
     var values_length = values_x.length;
 
-    if (values_length != values_y.length) {
+    if (values_length !== values_y.length) {
         throw new Error('The parameters values_x and values_y need to have same size!');
     }
 
@@ -78,14 +78,14 @@ function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metr
 
     var regressionData = new Plottable.Dataset(findLineByLeastSquares(xs, ys));
 
-
     var xAxis = new Plottable.Axes.Numeric(xScale, "bottom");
     var yAxis = new Plottable.Axes.Numeric(yScale, "left");
 
     var plot = new Plottable.Plots.Scatter()
         .addDataset(new Plottable.Dataset(data))
         .x(function(d) { return d[metric_x]; }, xScale)
-        .y(function(d) { return d[metric_y]; }, yScale);
+        .y(function(d) { return d[metric_y]; }, yScale)
+        .size(function (d) {return d["radius"]; });
 
     var line = new Plottable.Plots.Line()
       .addDataset(regressionData)

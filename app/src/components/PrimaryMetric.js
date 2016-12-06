@@ -46,6 +46,9 @@ class PrimaryMetric extends Component {
     );
     return (
       <div className="divider-bottom">
+        <h3>Select Metrics</h3>
+        <p>Changing metrics dynamically affects all plots below.</p>
+        <br />
         <Dropdown overlay={menu1}>
           <Button type="ghost" style={{ marginLeft: 8 }}>
             <strong>Primary Metric: </strong> {primary} <Icon type="down" />

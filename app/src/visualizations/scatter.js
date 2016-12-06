@@ -98,7 +98,7 @@ function createScatterPlot({data, metric_x_label, metric_y_label, metric_x, metr
     const xTitle = metric_x_label;
     var xTitleLabel = new Plottable.Components.AxisLabel(xTitle);
     const yTitle = metric_y_label;
-    var yTitleLabel = new Plottable.Components.AxisLabel(yTitle);
+    var yTitleLabel = new Plottable.Components.AxisLabel(yTitle).angle(-90);
 
     const body = new Plottable.Components.Group([plot, line]);
 

@@ -227,6 +227,11 @@ h2:before {
 .task:first-child {
   margin-top: 5em;
 }
+/* filters */
+.filter-inline {
+  display: inline-block;
+  margin-left: 1em;
+}
 
 /* misc */
 .no-date .time-axis .content .time-axis-tier:last-child text {

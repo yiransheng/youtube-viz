@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import { Select } from 'antd';
 const Option = Select.Option;
 
+import DateRange from './DateRange';
+
 class Filter extends Component {
   static defaultProps = {
     onChange : () => null
@@ -59,7 +61,7 @@ class Filters extends Component {
     }
     const filtersElements = dimensions.map(d => {
       return (
-        <div key={d.dimension}>
+        <div key={d.dimension} className="filter-inline">
           <strong style={{ marginRight: '1em' }}>Filter by video {d.dimension}: </strong>
           <Filter items={d.items} 
                   onChange = {vals => handleFilterChange(d.dimension, vals)}
@@ -72,6 +74,10 @@ class Filters extends Component {
         <h2>Top Level Filter</h2>
         <br />
         {filtersElements}
+        <div className="filter-inline">
+          <DateRange range={filters.dates  || null}
+            onChange={r => handleFilterChange("dates", r)} />
+        </div>
       </div>
     )
   }

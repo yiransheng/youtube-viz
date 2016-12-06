@@ -27,7 +27,12 @@ const getFilteredDataWithoutHists = createSelector(
     const data2 = data.filter(d => {
       const conditions = filterKeys.map(k => {
         const vals = filters[k];
-        if (vals && vals.length) {
+        if (k === 'dates' && vals && vals.length === 2) {
+          let [from, to] = vals;
+          from = from.toDate();
+          to = to.toDate();
+          return d.snippet_publishedAt >= from && d.snippet_publishedAt <= to;
+        } else if (vals && vals.length) {
           return includes(vals, d[k]);
         } else {
           return true;

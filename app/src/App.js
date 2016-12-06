@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {actions} from 'redux-router5';
 
-import { Row, Col } from 'antd';
+import { Row, Col, LocaleProvider } from 'antd';
+import enUS from 'antd/lib/locale-provider/en_US';
 
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -64,11 +65,13 @@ class App extends React.Component {
       comp = <Home onClick={go}/>;
     }
     return (
-      <div>
-        <Header />
-        {comp}
-        <Footer />
-      </div>
+      <LocaleProvider locale={enUS}>
+        <div>
+          <Header />
+          {comp}
+          <Footer />
+        </div>
+      </LocaleProvider>
     );
   }
 }

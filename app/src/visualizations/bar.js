@@ -1,4 +1,4 @@
-import {nest, sum} from 'd3';
+import {nest, sum, mean} from 'd3';
 import {sortBy} from 'lodash';
 import Plottable from 'plottable/plottable';
 import React, {Component} from 'react';
@@ -32,7 +32,7 @@ function createHorizBarChart({ data, metricLabel, dimensionKey, limit, displayNa
                 return d[dimensionKey];
             })
             .rollup(function (v) {
-                return sum(v, function (d) {
+                return mean(v, function (d) {
                     return d[metricLabel]
                 });
             })

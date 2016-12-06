@@ -81,23 +81,35 @@
       ]
     ]
   },
-  {
-    "preset": {
-      "primary": "duration_sec",
-      "secondary": "like_view_ratio",
-      "primaryDimension": "category",
-      "filters": {},
-      "histPlots": {}
-    },
-    "formulas": [
-      [
-        "like_view_ratio",
-        {
-          "type": "Formula",
-          "raw": "statistics_likeCount / statistics_viewCount",
-          "description": "User added Formula: statistics_likeCount / statistics_viewCount"
-        }
-      ]
+{
+  "preset": {
+    "primary": "log_like_view_ratio",
+    "secondary": "duration_sec",
+    "primaryDimension": "category",
+    "filters": {},
+    "histPlots": {
+      "log_like_view_ratio": {
+        "ext": null
+      }
+    }
+  },
+  "formulas": [
+    [
+      "like_view_ratio",
+      {
+        "type": "Formula",
+        "raw": "statistics_likeCount / statistics_viewCount",
+        "description": "User added Formula: statistics_likeCount / statistics_viewCount"
+      }
+    ],
+    [
+      "log_like_view_ratio",
+      {
+        "type": "Formula",
+        "raw": "log(statistics_likeCount+1) - log(statistics_viewCount+1)",
+        "description": "User added Formula: log(statistics_likeCount+1) - log(statistics_viewCount+1)"
+      }
     ]
-  }
+  ]
+}
 ]
